@@ -4,7 +4,8 @@ import customtkinter as ctk
 # Function to handle the button click event
 def get_input():
     user_input = entry.get()
-    print(f'User input: {user_input}')
+    app.destroy()
+    return ' '+user_input
     # You can use the input further as needed
 
 # Create the main application window
@@ -24,5 +25,6 @@ entry.pack(pady=20)
 button = ctk.CTkButton(master=app, text="Submit", command=get_input)
 button.pack(pady=10)
 
-# Start the main event loop
-app.mainloop()
+    # Start the main event loop
+def start_gui():
+    app.mainloop()
