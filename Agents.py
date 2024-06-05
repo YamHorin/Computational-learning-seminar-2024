@@ -35,34 +35,39 @@ config_list2 ={
   }
 
 
-#example:
-# assistant = AssistantAgent("assistant", llm_config={"config_list": config_list})
-
-# user_proxy = UserProxyAgent("user_proxy", code_execution_config={"work_dir": "coding", "use_docker": False})
-# user_proxy.initiate_chat(assistant, message="tell me a joke")
-
-cathy = ag.ConversableAgent(
-    "cathy",
-    system_message='''
-        Your name is Cathy 
-        You are a professor who has to give 10-15 diffrent answers to the questions that Bob will send you
-        You have to give the answers that you think is the most correct
-        Answers should be accurate
-        Notice that they are separated by numbers
-        when you finish start the message with THE Answers:
-    ''',
-    llm_config={"config_list": config_list},
-    human_input_mode="NEVER",  # Never ask for human input.
-)
-
 bob  = ag.ConversableAgent(
     "bob",
     system_message='''
-        Your name is bob 
-        You are a AI assitent 
-        your job is to get questions from the user and pass them to cathy and shir and tony 
-        so cathy can answer them
-        don't tell me the answers just tell me the questions you provide to them
+        Your name is Bob.
+
+        You are a professor who must provide 10 different answers to the questions the user will send you.
+
+        You need to give the answers that you think are the most correct. Ensure the answers are accurate.
+
+        Each answer should be numbered separately.
+
+        When you finish, wait for a feedback from shir 
+        if shir tells you this is not good "This is not good enough, Bob,"
+        see what it is to be fixed
+        if not 
+        show the result in the form: 
+
+        question 1:
+        [put the question here]
+        the answers:
+        [answer 1]
+        [answer 2]
+        [answer 3]
+
+        question 2:
+        [put the question here]
+        the answers:
+        [answer 1]
+        [answer 2]
+        [answer 3]
+
+        
+        ".
     
     ''',
     llm_config={"config_list": config_list},
@@ -71,44 +76,15 @@ bob  = ag.ConversableAgent(
 shir  = ag.ConversableAgent(
     "shir",
     system_message='''
-        Your name is shir 
-        You are a AI assitent 
-        your job is to get Answers from cathy and check The quality of the answers
-        if the answers were not good enough say "this is not good enoght cathy"
-        and tell cathy what to change in the answers of the qeustions
-        and print the answers
-        if the answers are good don't print a summary juse pass the answers to tony.
-    ''',
-    llm_config={"config_list": config_list},
-    human_input_mode="NEVER",  # Never ask for human input.
-)
+        Your name is Shir.
 
-tony = ag.ConversableAgent(
-    "tony",
-    system_message='''
-        Your name is tony 
-        You are a AI assitent 
-        your ONLY job is to get the questions from bob and the answers from shir
-        and print the results 
-        in a FORM 
-        the question vs the answers to that question 
-        in this form:
-        question 1:
-        [put the question here ]
-        the answers:
-        [answer 1 from shir]
-        [answer 2 from shir]
-        [answer 3 from shir]
+        You are an Professor.
 
-         question 2:
-        [put the question here ]
-        the answers:
-        [answer 1 from shir]
-        [answer 2 from shir]
-        [answer 3 from shir]
-        and so on
-        notice the numbers 
-        DON'T DO ANYTHING ELSE
+        Your job is to get answers from Bob and check the quality of the answers.
+
+        If the answers are not good enough, say "This is not good enough, Bob!" and tell Bob what to change in the answers.
+
+        If the answers are good, pass them to Tony without printing a summar
     ''',
     llm_config={"config_list": config_list},
     human_input_mode="NEVER",  # Never ask for human input.
@@ -125,25 +101,17 @@ def state_transition(last_speaker, groupchat):
         # init -> retrieve
         return bob
     elif last_speaker is bob:
+        if "This is not good enough, Bob!" in str(messages[-2]["content"]):
         # retrieve: action 1 -> action 2
-        return cathy
-    elif last_speaker is cathy:
-    # retrieve: action 2 -> action 3
-        return shir
-    elif last_speaker is shir:
-        if "This is not good enough, Cathy!" in str(messages[-1]["content"]):
-            # retrieve --(execution failed)--> retrieve
-            return cathy
+            return shir
         else:
-            # retrieve --(execution success)--> research
-            return tony
-    elif last_speaker == "tony":
-        # research -> end
-        return None
+            return None
+    elif last_speaker is shir:
+            return bob
     
 ##making the group chat:
 groupchat = ag.GroupChat(
-agents=[initializer, bob, shir, tony , cathy],
+agents=[initializer, bob, shir],
 messages=[],
 max_round=20,
 speaker_selection_method=state_transition,
