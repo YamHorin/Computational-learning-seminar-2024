@@ -33,11 +33,11 @@ cathy = ag.ConversableAgent(
     "cathy",
     system_message='''
         Your name is Cathy 
-        You are a student who has to give 10-15 answers to the questions that Bob will send you
+        You are a professor who has to give 10-15 answers to the questions that Bob will send you
         You have to give the answers that you think is the most correct
         Answers should be accurate
         Notice that they are separated by numbers
-    
+        when you finish start the message with THE Answers:
     ''',
     llm_config={"config_list": config_list},
     human_input_mode="NEVER",  # Never ask for human input.
@@ -55,5 +55,39 @@ bob  = ag.ConversableAgent(
     llm_config={"config_list": config_list},
     human_input_mode="NEVER",  # Never ask for human input.
 )
+shir  = ag.ConversableAgent(
+    "shir",
+    system_message='''
+        Your name is shir 
+        You are a AI assitent 
+        your job is to get Answers from cathy and check The quality of the answers
+        and print the answers
+        and also tell cathy if the answers were good or not 
+    
+    ''',
+    llm_config={"config_list": config_list},
+    human_input_mode="NEVER",  # Never ask for human input.
+)
+initializer = ag.UserProxyAgent(
+    name="Init",
+)
 
-user_proxy = ag.UserProxyAgent("user", code_execution_config=False)
+def state_transition(last_speaker, groupchat):
+    messages = groupchat.messages
+
+    if last_speaker is initializer:
+        # init -> retrieve
+        return coder
+    elif last_speaker is coder:
+        # retrieve: action 1 -> action 2
+        return executor
+    elif last_speaker is executor:
+        if messages[-1]["content"] == "exitcode: 1":
+            # retrieve --(execution failed)--> retrieve
+            return coder
+        else:
+            # retrieve --(execution success)--> research
+            return scientist
+    elif last_speaker == "Scientist":
+        # research -> end
+        return None
