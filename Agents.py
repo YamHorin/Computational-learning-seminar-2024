@@ -48,8 +48,8 @@ bob  = ag.ConversableAgent(
     system_message='''
         Your name is bob 
         You are a AI assitent 
-        your job is to get question from the user and pass them to cathy
-        so she can answer them
+        your job is to get questions from the user and pass them to cathy and shir
+        so cathy can answer them
     
     ''',
     llm_config={"config_list": config_list},
@@ -61,13 +61,30 @@ shir  = ag.ConversableAgent(
         Your name is shir 
         You are a AI assitent 
         your job is to get Answers from cathy and check The quality of the answers
+        if the answers were not good enough say "this is not good enoght cathy"
+        and tell cathy what to change in the answers of the qeustions
         and print the answers
-        and also tell cathy if the answers were good or not 
-    
     ''',
     llm_config={"config_list": config_list},
     human_input_mode="NEVER",  # Never ask for human input.
 )
+
+tony = ag.ConversableAgent(
+    "tony",
+    system_message='''
+        Your name is tony 
+        You are a AI assitent 
+        your job is to get the questions from bob
+        and the answers from shir
+        and print the result 
+        in a table side by side 
+        the question vs the answers to that question 
+        notice the numbers 
+    ''',
+    llm_config={"config_list": config_list},
+    human_input_mode="NEVER",  # Never ask for human input.
+)
+
 initializer = ag.UserProxyAgent(
     name="Init",
 )
@@ -77,17 +94,35 @@ def state_transition(last_speaker, groupchat):
 
     if last_speaker is initializer:
         # init -> retrieve
-        return coder
-    elif last_speaker is coder:
+        return bob
+    elif last_speaker is bob:
         # retrieve: action 1 -> action 2
-        return executor
-    elif last_speaker is executor:
-        if messages[-1]["content"] == "exitcode: 1":
+        return cathy
+    elif last_speaker is cathy:
+    # retrieve: action 2 -> action 3
+        return shir
+    elif last_speaker is shir:
+        if messages[-1]["content"] == "this is not good enoght cathy":
             # retrieve --(execution failed)--> retrieve
-            return coder
+            return cathy
         else:
             # retrieve --(execution success)--> research
-            return scientist
-    elif last_speaker == "Scientist":
+            return tony
+    elif last_speaker == "tony":
         # research -> end
         return None
+    
+##making the group chat:
+groupchat = ag.GroupChat(
+agents=[initializer, bob, shir, tony , cathy],
+messages=[],
+max_round=20,
+speaker_selection_method=state_transition,
+)
+
+##manager
+manager = ag.GroupChatManager(groupchat=groupchat, llm_config=config_list)
+
+initializer.initiate_chat(
+    manager, message=questions
+)
