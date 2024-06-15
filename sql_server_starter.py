@@ -18,38 +18,47 @@ except mysql.connector.Error as err:
     print("Database does not exist")
   else:
     print(err)
-else:
-  cnx.close()
+
 
 database = 'ai_questions'
 
 mycursor  = cnx.cursor()
 mycursor.execute(f'USE {database};')
+mycursor.execute('''
+CREATE TABLE IF NOT EXISTS test (
+    test_id INT AUTO_INCREMENT PRIMARY KEY,
+    test_name VARCHAR(255) NOT NULL
+    
+);
+                 
+''')                 
                  
 mycursor.execute('''
-CREATE TABLE questions_tbl (
+CREATE TABLE IF NOT EXISTS questions_tbl (
     questions_id INT AUTO_INCREMENT PRIMARY KEY,
-    questions_text VARCHAR(255) NOT NULL,
-    test_id  INT AUTO_INCREMENT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    questions_text VARCHAR(1000) NOT NULL,
+    test_id  INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                 
+    FOREIGN KEY (test_id) REFERENCES test(test_id)
 );
                  
 ''')
                  
                  
 mycursor.execute('''
-CREATE TABLE answers_tbl (
+CREATE TABLE IF NOT EXISTS answers_tbl (
     answer_id INT AUTO_INCREMENT PRIMARY KEY,
-    answer_text VARCHAR(255) NOT NULL,
-    
-    
-    test_id INT NOT NULL,
+    answer_text VARCHAR(1000) NOT NULL,
+    test_id  INT,
     question_id INT NOT NULL,
-    date DATE NOT NULL
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (question_id) REFERENCES questions_tbl(questions_id),
+    FOREIGN KEY (test_id) REFERENCES test(test_id)
+    
 );
                  
 ''')
-                 
                  
                  
                  
