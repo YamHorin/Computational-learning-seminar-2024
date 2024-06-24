@@ -1,6 +1,7 @@
 import autogen as ag
-
-def initialize_agents():
+import re
+import model.cosineSimilarityMatrix as cosin
+def initialize_agents(answers):
     config_list = [
         {
             "model": "llama3",
@@ -14,48 +15,37 @@ def initialize_agents():
         system_message='''
             Your name is Bob.
 
-            You are a professor who must provide 10 different answers to the questions the user will send you.
+            You are a professor who must provide 5 different answers to the each question the user will send you.
+            
+            You need to answer with the key words we will provide you 
 
+            You need to answer as close as possible to the answers we will provide you 
+            
             You need to give the answers that you think are the most correct. Ensure the answers are accurate.
 
             Each answer should be numbered separately.
 
-            When you finish, wait for a feedback from shir 
-            if shir tells you this is not good "This is not good enough, Bob,"
-            see what it is to be fixed
-            if not 
-            show the result in the form: 
+            put the return message like that: 
 
             question 1:
             [put the question here]
-            the answers:
+
+            the answers for question 1 :
             [answer 1]
             [answer 2]
             [answer 3]
-
+             
+            end 
+            
             question 2:
             [put the question here]
-            the answers:
+            the answers question 2:
             [answer 1]
             [answer 2]
             [answer 3]
-        ''',
-        llm_config={"config_list": config_list},
-        human_input_mode="NEVER",  # Never ask for human input.
-    )
-
-    shir = ag.ConversableAgent(
-        "shir",
-        system_message='''
-            Your name is Shir.
-
-            You are a Professor.
-
-            Your job is to get answers from Bob and check the quality of the answers.
-
-            If the answers are not good enough, say "This is not good enough, Bob!" and tell Bob what to change in the answers.
-
-            If the answers are good, pass them to Tony without printing a summary
+            
+            end
+            and so on 
         ''',
         llm_config={"config_list": config_list},
         human_input_mode="NEVER",  # Never ask for human input.
@@ -67,22 +57,30 @@ def initialize_agents():
 
     def state_transition(last_speaker, groupchat):
         messages = groupchat.messages
-
+        text = str(messages[-2]["content"])
         if last_speaker is initializer:
             # init -> retrieve
             return bob
         elif last_speaker is bob:
-            if "This is not good enough, Bob!" in str(messages[-2]["content"]):
-                # retrieve: action 1 -> action 2
-                return shir
-            else:
-                return None
-        elif last_speaker is shir:
-            return bob
+            #caculate similarity to each answer
+            # Regular expression to match answers for each question
+            answers_pattern = re.compile(r'the answers (?:for )?question \d+:\n((?:\[\w+ .+\]\n?)+)')
+            all_answers = []
+            matches = answers_pattern.findall(text)
+            for match in matches:
+                # Extract individual answers
+                answers = re.findall(r'\[(.+?)\]', match)
+                all_answers.append(answers)
+            for answerAI in all_answers:
+                score  = cosin.caculateSimilarityAnswersWithKeyWordAgentToTeacher(answerAI, ans)
+            # Output the list of answers
+            print(all_answers)
+
+
 
     # Making the group chat
     groupchat = ag.GroupChat(
-        agents=[initializer, bob, shir],
+        agents=[initializer, bob],
         messages=[],
         max_round=20,
         speaker_selection_method=state_transition,
