@@ -1,5 +1,8 @@
-from model.agent_logic import initialize_agents
+from model.agentLogixMake_AI_Answers import initialize_agents
 import controller.sql_server as sql
+
+#TODO add parameter to each answer , how much point  
+
 def getAIAnswers(questions , answers , key_words):
     #TODO
     sql.sql_server.add_answers(answers)

@@ -1,7 +1,9 @@
 import autogen as ag
 import re
 import model.cosineSimilarityMatrix as cosin
-def initialize_agents(answers):
+import View.objectsPrograms
+#answers_teacher - list of View.objectsPrograms Answers
+def initialize_agents(answers_teacher):
     config_list = [
         {
             "model": "llama3",
@@ -25,7 +27,11 @@ def initialize_agents(answers):
 
             Each answer should be numbered separately.
 
-            put the return message like that: 
+           If we come back to you one more time in a conversation so that you know that the answers 
+            
+            you gave were not good enough and we ask you for better answers than you did.
+
+            Any message you find will be output according to the following format:
 
             question 1:
             [put the question here]
@@ -71,10 +77,24 @@ def initialize_agents(answers):
                 # Extract individual answers
                 answers = re.findall(r'\[(.+?)\]', match)
                 all_answers.append(answers)
-            for answerAI in all_answers:
-                score  = cosin.caculateSimilarityAnswersWithKeyWordAgentToTeacher(answerAI, ans)
             # Output the list of answers
             print(all_answers)
+            #caculate avg score of answers
+            average =0
+            total_score =0
+            counter_total_answer =0
+            for answer in answers_teacher:
+                for answerAI in all_answers:
+                    score  = cosin.caculateSimilarityAnswersWithKeyWordAgentToTeacher(answerAI,answer.text ,answer.keyWords)
+                    total_score += score
+                    counter_total_answer+=1
+            average  = total_score//counter_total_answer
+            if average<=60:
+                return bob
+            else:
+                return None
+
+                        
 
 
 

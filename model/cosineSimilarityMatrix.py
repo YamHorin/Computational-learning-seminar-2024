@@ -9,33 +9,43 @@ def caculateSimilarityAnswersWithKeyWordStudentToAgent(AI_answer,student_answer 
     cosine_sim = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:2])
 
     print("Cosine Similarity:", cosine_sim[0][0])
-    for i, word in enumerate(student_answer):
-        if (word in keyWords):
-            print("word {i} found in key words ({word})")
-            counter_key_words+=1
+    # Initialize counter for keywords
+    counter_key_words = 0
+    
+    if keyWords:
+        ai_words = student_answer.split()
+        total_keywords = len(keyWords)
+        counter_key_words = sum(1 for word in ai_words if word in keyWords) / total_keywords
+    
 
     print("Cosine Similarity:", cosine_sim[0][0])
 
     return (cosine_sim[0][0] *0.7 + counter_key_words*0.3)
 
     
-    return cosine_sim[0][0]
 
-def caculateSimilarityAnswersWithKeyWordAgentToTeacher(AI_answer,teacher_answer ,keyWords):
+def calculateSimilarityAnswersWithKeyWordAgentToTeacher(AI_answer, teacher_answer, keyWords):
     vectorizer = TfidfVectorizer()
     tfidf_matrix = vectorizer.fit_transform([AI_answer, teacher_answer])
 
     # Calculate cosine similarity
     cosine_sim = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:2])
-    counter_key_words =0
-    for i, word in enumerate(AI_answer):
-        if (word in keyWords):
-            print("word {i} found in key words ({word})")
-            counter_key_words+=1
 
-    print("Cosine Similarity:", cosine_sim[0][0])
-    return (cosine_sim[0][0] *0.7 + counter_key_words*0.3)
+    # Initialize counter for keywords
+    counter_key_words = 0
+    
+    if keyWords:
+        ai_words = AI_answer.split()
+        total_keywords = len(keyWords)
+        counter_key_words = sum(1 for word in ai_words if word in keyWords) / total_keywords
+    
+    print(f"Cosine Similarity: {cosine_sim[0][0]}")
+    print(f"Keyword Fraction: {counter_key_words}")
 
+    if keyWords:
+        return cosine_sim[0][0] * 0.7 + counter_key_words * 0.3
+    else:
+        return cosine_sim[0][0]
 #'''
 # agent1 list answer
 # check similarity  

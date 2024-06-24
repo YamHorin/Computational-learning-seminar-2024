@@ -1,5 +1,5 @@
 import customtkinter as ctk
-from agent_logic import initialize_agents
+from model.agentLogixMake_AI_Answers import initialize_agents
 
 class GUIApp:
     def __init__(self, root):
@@ -28,6 +28,8 @@ class GUIApp:
 
     def done_input(self):
         # Initialize agents and run the group chat
+        #get question , answers , keys
+
         self.initialize_agents()
         
         initializer.initiate_chat(manager, message=self.questions)
