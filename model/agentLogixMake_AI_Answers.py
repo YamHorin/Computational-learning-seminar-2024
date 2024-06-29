@@ -1,3 +1,13 @@
+# before you start coding you need to install autoGen 
+# run this command in the terminal:
+#   pip install pyautogen
+#   ollama pull llama3
+#   install docker 
+#   docker build -f .devcontainer/Dockerfile -t autogen_base_img https://github.com/microsoft/autogen.git#main
+#   docker build -f .devcontainer/full/Dockerfile -t autogen_full_img https://github.com/microsoft/autogen.git#main
+#   docker run -d --name exciting_chatterjee alpine watch "date >> /var/log/date.log"
+
+
 import autogen as ag
 import re
 import model.cosineSimilarityMatrix as cosin
@@ -63,7 +73,7 @@ def initialize_agents(answers_teacher):
 
     def state_transition(last_speaker, groupchat):
         messages = groupchat.messages
-        text = str(messages[-2]["content"])
+        text = str(messages[-1]["content"])
         if last_speaker is initializer:
             # init -> retrieve
             return bob

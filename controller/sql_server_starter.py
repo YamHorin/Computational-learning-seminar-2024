@@ -1,16 +1,18 @@
-# Installation
-#pip install mysql-connector-python
-#in mysql:
+#Installation
+# pip install mysql-connector-python
+#  in mysql:
 # show  databases;
-# create database ai_questions;
+# create database ai_answers;
 
 import mysql.connector
 from mysql.connector import errorcode
+import maskpass
+pwd = maskpass.askpass(prompt="Password for sql account:", mask="#")
 
 try:
   cnx = mysql.connector.connect( user = 'root',
-                                password = 'deganit@0800abc',
-                                database='ai_questions')
+                                password = pwd,
+                                database='ai_answers')
 except mysql.connector.Error as err:
   if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
     print("Something is wrong with your user name or password")
@@ -20,7 +22,7 @@ except mysql.connector.Error as err:
     print(err)
 
 
-database = 'ai_questions'
+database = 'ai_answers'
 
 mycursor  = cnx.cursor()
 mycursor.execute(f'USE {database};')
@@ -35,11 +37,11 @@ CREATE TABLE IF NOT EXISTS test (
                  
 mycursor.execute('''
 CREATE TABLE IF NOT EXISTS questions_tbl (
-    questions_id INT AUTO_INCREMENT PRIMARY KEY,
+    questions_id INT PRIMARY KEY,
     questions_text VARCHAR(1000) NOT NULL,
+    points INT,
     test_id  INT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                 
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,     
     FOREIGN KEY (test_id) REFERENCES test(test_id)
 );
                  
@@ -50,16 +52,16 @@ mycursor.execute('''
 CREATE TABLE IF NOT EXISTS answers_tbl (
     answer_id INT AUTO_INCREMENT PRIMARY KEY,
     answer_text VARCHAR(1000) NOT NULL,
-    test_id  INT,
+    creadedBy VARCHAR(1000),
     question_id INT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (question_id) REFERENCES questions_tbl(questions_id),
-    FOREIGN KEY (test_id) REFERENCES test(test_id)
-    
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
                  
 ''')
                  
-                 
+cnx.commit()
+
+mycursor.close()
+cnx.close()             
                  
  
