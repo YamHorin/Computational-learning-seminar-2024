@@ -1,3 +1,4 @@
+
 # before you start coding you need to install autoGen 
 # run this command in the terminal:
 #   pip install pyautogen
@@ -6,6 +7,10 @@
 #   docker build -f .devcontainer/Dockerfile -t autogen_base_img https://github.com/microsoft/autogen.git#main
 #   docker build -f .devcontainer/full/Dockerfile -t autogen_full_img https://github.com/microsoft/autogen.git#main
 #   docker run -d --name exciting_chatterjee alpine watch "date >> /var/log/date.log"
+
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 import autogen as ag

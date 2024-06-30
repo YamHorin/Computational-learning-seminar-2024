@@ -1,6 +1,15 @@
+#to started pip install customtkinter
+#this is the main files when the program will start 
+
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+
 import tkinter
 import tkinter.messagebox
 import customtkinter as ctk
+from controller.sql_server_starter import database_initialization
 
 class GUIApp(ctk.CTk):
     def __init__(self):
@@ -20,7 +29,7 @@ class GUIApp(ctk.CTk):
         self.sidebar_frame = ctk.CTkFrame(self, width=140, corner_radius=0)
         self.sidebar_frame.grid(row=0, column=0, rowspan=4, sticky="nsew")
         self.sidebar_frame.grid_rowconfigure(4, weight=1)
-        self.logo_label = ctk.CTkLabel(self.sidebar_frame, text="CustomTkinter", font=ctk.CTkFont(size=20, weight="bold"))
+        self.logo_label = ctk.CTkLabel(self.sidebar_frame, text="Teacher submit:", font=ctk.CTkFont(size=20, weight="bold"))
         self.logo_label.grid(row=0, column=0, padx=20, pady=(20, 10))
         self.sidebar_button_1 = ctk.CTkButton(self.sidebar_frame, command=self.sidebar_button_event)
         self.sidebar_button_1.grid(row=1, column=0, padx=20, pady=10)
@@ -40,6 +49,7 @@ class GUIApp(ctk.CTk):
         self.scaling_optionemenu.grid(row=8, column=0, padx=20, pady=(10, 20))
 
         # create the rest of the widgets using grid
+        
         self.question_entry = ctk.CTkTextbox(self, width=400, height=200)
         self.question_entry.grid(row=0, column=1, columnspan=2, padx=20, pady=(20, 10))
         
@@ -47,7 +57,7 @@ class GUIApp(ctk.CTk):
         self.submit_button.grid(row=1, column=1, padx=20, pady=10)
         
         self.done_button = ctk.CTkButton(self, text="Done", command=self.done_input)
-        self.done_button.grid(row=1, column=2, padx=20, pady=10)
+        self.done_button.grid(row=2, column=1, padx=20, pady=10)
     
     def change_appearance_mode_event(self, new_appearance_mode: str):
         ctk.set_appearance_mode(new_appearance_mode)
@@ -87,5 +97,6 @@ class GUIApp(ctk.CTk):
 
 
 if __name__ == "__main__":
+    #database_initialization()
     app = GUIApp()
     app.mainloop()
