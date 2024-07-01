@@ -73,6 +73,7 @@ def get_last_number_question_and_answer():
     cnx = mysql.connector.connect( user = 'root',
                                   password = pwd,
                                   database='ai_answers')
+    mycursor  = cnx.cursor(buffered=True)
   except mysql.connector.Error as err:
     if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
       print("Something is wrong with your user name or password")
@@ -84,7 +85,8 @@ def get_last_number_question_and_answer():
   
   database = 'ai_answers'
   
-  mycursor  = cnx.cursor()
+
+  mycursor.execute(f'USE {database};')
   num_qu  =mycursor.execute('''
   SELECT COUNT(*)
   FROM questions_tbl
