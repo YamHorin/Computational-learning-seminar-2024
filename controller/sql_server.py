@@ -19,6 +19,7 @@ class sql_server:
                 print("Database does not exist")
             else:
                 print(err)
+        print("connection with the my sql database has been complete\n\n")
         self.database_name = database
         self.cursor = self.database.cursor()
         self.cursor.execute(f'USE {database};')
@@ -49,4 +50,7 @@ class sql_server:
         print(f"insert questions in the sql database: {questions}")
 
     def add_test(self,test_name):
-        self.cursor.execute(sql = f"INSERT INTO test (test_name) VALUES ({test_name})")       
+        self.cursor.execute(sql = f"INSERT INTO test (test_name) VALUES ({test_name})")
+    def close_connection(self):
+        self.cursor.close()
+        self.cnx.close()        

@@ -15,11 +15,11 @@ class Answer():
 
 class AnswerFactory_teacher():
     def createAnswer(self , answers_text, answer_points, id_question):
-        return Answer(answers_text, answer_points, id_question , "teacher")
+        return Answer(answers_text, id_question , "teacher")
 
 class AnswerFactory_Agent():
     def createAnswer(self , answers_text, answer_points, id_question):
-        return Answer(answers_text, answer_points, id_question , "Agent")
+        return Answer(answers_text, id_question , "Agent")
 
 class Question():
     def __init__(self ,id, question_text, points,  keyWords,id_answer_teacher , answerFromTeacher ,test_id):
@@ -45,9 +45,9 @@ class Question():
 
 
 class QuestionFactory():
-    def __init__(self):
-        self.id =0 
-    def createAnswer(self, question_text, points,  keyWords,id_answer_teacher , answerFromTeacher ,test_id):
+    def __init__(self , num):
+        self.id =num
+    def createQuestion(self, question_text, points,  keyWords,id_answer_teacher , answerFromTeacher ,test_id):
         self.id+=1
         return Question(self.id, question_text, points,  keyWords,id_answer_teacher , answerFromTeacher ,test_id)
     

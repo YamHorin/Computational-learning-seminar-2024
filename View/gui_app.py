@@ -1,20 +1,22 @@
 #to started pip install customtkinter
 #this is the main files when the program will start 
 
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-
-import tkinter
-import tkinter.messagebox
 import customtkinter as ctk
-from controller.sql_server_starter import database_initialization
-
+import View.objectsPrograms as obj
 class GUIApp(ctk.CTk):
-    def __init__(self):
+    def __init__(self , last_num_question , last_num_answer):
         super().__init__()
-        
+        #things for logic
+        self.last_num_question = last_num_question
+        self.last_num_answer = last_num_answer
+        self.questions = []
+        self.answers = []
+        #factories
+        self.factory_questions = obj.QuestionFactory( last_num_question)
+        self.factory_answer_teacher = obj.AnswerFactory_teacher()
+       
+
+        #making the window
         self.title("Autogen Agent Interaction")
         self.geometry(f"{1100}x{580}")
         
@@ -23,8 +25,6 @@ class GUIApp(ctk.CTk):
         self.grid_columnconfigure((2, 3), weight=0)
         self.grid_rowconfigure((0, 1, 2), weight=1)
 
-        self.questions = ""    
-       
         # create sidebar frame with widgets
         self.sidebar_frame = ctk.CTkFrame(self, width=140, corner_radius=0)
         self.sidebar_frame.grid(row=0, column=0, rowspan=4, sticky="nsew")
@@ -44,34 +44,61 @@ class GUIApp(ctk.CTk):
         self.appearance_mode_optionemenu.grid(row=6, column=0, padx=20, pady=(10, 10))
         self.scaling_label = ctk.CTkLabel(self.sidebar_frame, text="UI Scaling:", anchor="w")
         self.scaling_label.grid(row=7, column=0, padx=20, pady=(10, 0))
-        self.scaling_optionemenu = ctk.CTkOptionMenu(self.sidebar_frame, values=["80%", "90%", "100%", "110%", "120%"],
+        self.scaling_optionemenu = ctk.CTkOptionMenu(self.sidebar_frame, values=["80%", "90%", "100%", "110%", "120%", "130%", "140%", "150%"],
                                                                command=self.change_scaling_event)
         self.scaling_optionemenu.grid(row=8, column=0, padx=20, pady=(10, 20))
 
         # create the rest of the widgets using grid
-        
+        self.question_label = ctk.CTkLabel(self, text="Question:", font=ctk.CTkFont(size=20, weight="bold"))
+        self.question_label.grid(row=0, column=1, padx=10, pady=(20, 5), sticky="w")
         self.question_entry = ctk.CTkTextbox(self, width=400, height=200)
-        self.question_entry.grid(row=0, column=1, columnspan=2, padx=20, pady=(20, 10))
+        self.question_entry.grid(row=0, column=1, columnspan=2, padx=10, pady=(5, 10))
+
+        self.answer_label = ctk.CTkLabel(self, text="Answer:", font=ctk.CTkFont(size=20, weight="bold"))
+        self.answer_label.grid(row=1, column=1, padx=10, pady=(10, 5), sticky="w")
+        self.answer_entry = ctk.CTkTextbox(self, width=400, height=200)
+        self.answer_entry.grid(row=1, column=1, columnspan=2, padx=10, pady=(5, 10))
+
+        self.keywords_label = ctk.CTkLabel(self, text="Keywords:", font=ctk.CTkFont(size=20, weight="bold"))
+        self.keywords_label.grid(row=2, column=1, padx=10, pady=(10, 5), sticky="w")
+        self.keywords_entry = ctk.CTkTextbox(self, width=400, height=100)
+        self.keywords_entry.grid(row=2, column=1, columnspan=2, padx=10, pady=(5, 10))
+
+        self.points_label = ctk.CTkLabel(self, text="Points:", font=ctk.CTkFont(size=20, weight="bold"))
+        self.points_label.grid(row=3, column=1, padx=10, pady=(10, 5), sticky="w")
+        self.points_optionemenu = ctk.CTkOptionMenu(self, values=["5", "10", "15", "20", "25"], command=self.change_points_event)
+        self.points_optionemenu.grid(row=3, column=2, padx=10, pady=(5, 10))
+
         
-        self.submit_button = ctk.CTkButton(self, text="Submit Question", command=self.submit_question)
-        self.submit_button.grid(row=1, column=1, padx=20, pady=10)
-        
-        self.done_button = ctk.CTkButton(self, text="Done", command=self.done_input)
-        self.done_button.grid(row=2, column=1, padx=20, pady=10)
-    
+        self.submit_button = ctk.CTkButton(self, text="Submit data", command=self.submit_question, width=200, height=50)
+        self.submit_button.grid(row=3, column=2, padx=20, pady=10)
+
+        self.done_button = ctk.CTkButton(self, text="Done", command=self.done_input, width=200, height=50)
+        self.done_button.grid(row=3, column=3, padx=20, pady=10)
+    #TODO    
+    def change_points_event(self,new_points: str):
+        pass
     def change_appearance_mode_event(self, new_appearance_mode: str):
         ctk.set_appearance_mode(new_appearance_mode)
+    
     def change_scaling_event(self, new_scaling: str):
         new_scaling_float = int(new_scaling.replace("%", "")) / 100
         ctk.set_widget_scaling(new_scaling_float)    
+    
     def sidebar_button_event(self):
         print("buttom activated")
     
+    
     def submit_question(self):
-        pass
         # question_text = self.question_entry.get("1.0", "end-1c")
-        # self.questions += question_text + "\n"
         # self.question_entry.delete("1.0", "end")
+
+        #TODO make a point submit text or a scaling option emenu
+        pass        
+        # self.questions.append(self.factory_questions.createQuestion(self.question_entry.get("1.0", "end-1c")
+        #                                                        ,10,
+        #                                                        self.keywords_entry.get("1.0", "end-1c")
+        #                                                        ,))
 
     def done_input(self):
         pass
@@ -96,7 +123,4 @@ class GUIApp(ctk.CTk):
         # answers_text.insert("1.0", answers)
 
 
-if __name__ == "__main__":
-    #database_initialization()
-    app = GUIApp()
-    app.mainloop()
+

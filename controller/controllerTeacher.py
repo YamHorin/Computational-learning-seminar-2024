@@ -1,18 +1,9 @@
-import sys
-import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-
-
 from model.agentLogixMake_AI_Answers import initialize_agents
 import controller.sql_server as sql
 
 
 def getAIAnswers(questions , answers , key_words):
-    #TODO
     sql.sql_server.add_answers(answers)
-    
-    #TODO
     sql.sql_server.add_questions(questions)
     
     
