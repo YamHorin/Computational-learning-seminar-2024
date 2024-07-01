@@ -1,7 +1,7 @@
 #Installation
 # pip install maskpass
 # pip install mysql-connector-python
-#  in mysql:
+#  in mysql workbanch:
 # show  databases;
 # create database ai_answers;
 
@@ -63,8 +63,38 @@ def database_initialization():
   ''')
                    
   cnx.commit()
-  
   mycursor.close()
   cnx.close()             
                  
- 
+def get_last_number_question_and_answer():
+  pwd = maskpass.askpass(prompt="Password for sql account:", mask="#")
+  
+  try:
+    cnx = mysql.connector.connect( user = 'root',
+                                  password = pwd,
+                                  database='ai_answers')
+  except mysql.connector.Error as err:
+    if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+      print("Something is wrong with your user name or password")
+    elif err.errno == errorcode.ER_BAD_DB_ERROR:
+      print("Database does not exist")
+    else:
+      print(err)
+  
+  
+  database = 'ai_answers'
+  
+  mycursor  = cnx.cursor()
+  num_qu  =mycursor.execute('''
+  SELECT COUNT(*)
+  FROM questions_tbl
+  ''')
+  num_ans  =mycursor.execute('''
+  SELECT COUNT(*)
+  FROM answers_tbl
+  ''')
+  cnx.commit()
+  mycursor.close()
+  cnx.close()      
+
+  return num_qu,num_ans
