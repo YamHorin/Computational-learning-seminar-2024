@@ -3,9 +3,9 @@ from model.agentLogixMake_AI_Answers import initialize_agents
 import controller.sql_server as sql
 
 class controllerTeacher():
-       def __init__(self,gui_app):
+       def __init__(self,gui_app ,pwd):
               self.app =gui_app
-              self.sql_server = sql.sql_server()
+              self.sql_server = sql.sql_server( 'root',pwd,'ai_answers')
        def runApp(self):
               self.app.mainloop()
               self.getAIAnswers(self.app.questions ,self.app.answers , self.app.key_words)

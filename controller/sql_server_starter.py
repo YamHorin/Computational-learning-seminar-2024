@@ -8,9 +8,8 @@
 import mysql.connector
 from mysql.connector import errorcode
 import maskpass
-def database_initialization():
+def database_initialization(pwd):
 
-  pwd = maskpass.askpass(prompt="Password for sql account:", mask="#")
   
   try:
     cnx = mysql.connector.connect( user = 'root',
@@ -66,8 +65,7 @@ def database_initialization():
   mycursor.close()
   cnx.close()             
                  
-def get_last_number_question_and_answer():
-  pwd = maskpass.askpass(prompt="Password for sql account:", mask="#")
+def get_last_number_question_and_answer(pwd):
   
   try:
     cnx = mysql.connector.connect( user = 'root',
@@ -76,9 +74,9 @@ def get_last_number_question_and_answer():
     mycursor  = cnx.cursor(buffered=True)
   except mysql.connector.Error as err:
     if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-      print("Something is wrong with your user name or password")
+      print("\n\nSomething is wrong with your user name or password\n\n")
     elif err.errno == errorcode.ER_BAD_DB_ERROR:
-      print("Database does not exist")
+      print("\n\nDatabase does not exist\n\n")
     else:
       print(err)
   

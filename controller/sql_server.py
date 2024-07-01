@@ -5,13 +5,12 @@
 import mysql.connector
 from mysql.connector import errorcode
 from pymysql import MySQLError
-from View.objectsPrograms import Answer ,Question
 class sql_server:
-    def __init__(self ,database , password_sql , user_sql):
+    def __init__(self ,user_sql, password_sql ,database):
         try:
             self.cnx = mysql.connector.connect( user = user_sql,
-                                            password = password_sql,
-                                            database=database)
+                                                password = password_sql,
+                                                database=database)
         except mysql.connector.Error as err:
             if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
                 print("Something is wrong with your user name or password")
@@ -21,7 +20,7 @@ class sql_server:
                 print(err)
         print("connection with the my sql database has been complete\n\n")
         self.database_name = database
-        self.cursor = self.database.cursor()
+        self.cursor = self.cnx.cursor()
         self.cursor.execute(f'USE {database};')
 
 
