@@ -91,6 +91,7 @@ class GUIApp(ctk.CTk):
         print("buttom activated")
     
     
+    #TODO
     def submit_question(self):
         # question_text = self.question_entry.get("1.0", "end-1c")
         # self.question_entry.delete("1.0", "end")
@@ -102,6 +103,7 @@ class GUIApp(ctk.CTk):
         #                                                        self.keywords_entry.get("1.0", "end-1c")
         #                                                        ,))
 
+    #TODO
     def done_input(self):
         pass
         # Initialize agents and run the group chat
