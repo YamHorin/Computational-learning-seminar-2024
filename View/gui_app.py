@@ -2,7 +2,9 @@
 #this is the main files when the program will start 
 
 import customtkinter as ctk
-import View.objectsPrograms as obj
+#import View.objectsPrograms as obj
+import objectsPrograms as obj
+
 class GUIApp(ctk.CTk):
     def __init__(self , last_num_question , last_num_answer):
         super().__init__()
@@ -18,7 +20,7 @@ class GUIApp(ctk.CTk):
 
         #making the window
         self.title("Autogen Agent Interaction")
-        self.geometry(f"{1100}x{580}")
+        self.geometry(f"{1100}x{1100}")
         
         # configure grid layout (4x4)
         self.grid_columnconfigure(1, weight=1)
@@ -66,15 +68,15 @@ class GUIApp(ctk.CTk):
 
         self.points_label = ctk.CTkLabel(self, text="Points:", font=ctk.CTkFont(size=20, weight="bold"))
         self.points_label.grid(row=3, column=1, padx=10, pady=(10, 5), sticky="w")
-        self.points_optionemenu = ctk.CTkOptionMenu(self, values=["5", "10", "15", "20", "25"], command=self.change_points_event)
-        self.points_optionemenu.grid(row=3, column=2, padx=10, pady=(5, 10))
+        self.points_optionemenu = ctk.CTkTextbox(self, width=400, height=100)
+        self.points_optionemenu.grid(row=3, column=1, columnspan=2,padx=10, pady=(5, 10))
 
         
         self.submit_button = ctk.CTkButton(self, text="Submit data", command=self.submit_question, width=200, height=50)
-        self.submit_button.grid(row=3, column=2, padx=20, pady=10)
+        self.submit_button.grid(row=4, column=2, padx=20, pady=10)
 
         self.done_button = ctk.CTkButton(self, text="Done", command=self.done_input, width=200, height=50)
-        self.done_button.grid(row=3, column=3, padx=20, pady=10)
+        self.done_button.grid(row=4, column=3, padx=20, pady=10)
     #TODO    
     def change_points_event(self,new_points: str):
         pass
@@ -122,5 +124,5 @@ class GUIApp(ctk.CTk):
         
         # answers_text.insert("1.0", answers)
 
-
-
+app = GUIApp(0,0)
+app.mainloop()
