@@ -11,6 +11,7 @@ class controllerTeacher():
               self.getAIAnswers(self.app.questions ,self.app.answers , self.app.key_words)
 
        def getAIAnswers(self,questions , answers , key_words):
+              print("Initializing agents and starting group chat...")
               self.sql_server.add_answers(answers)
               self.sql_server.add_questions(questions)
               

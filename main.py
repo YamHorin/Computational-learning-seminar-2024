@@ -11,7 +11,7 @@ pwd = maskpass.askpass(prompt="Password for sql account:", mask="#")
 
 if (letter.upper()=='Y'):
     sql_starter.database_initialization(pwd)
-print(f"your letter is : {letter.upper()}")
+print(f"your letter is : {letter.upper()}")yield
 last_num_question,last_num_answer = sql_starter.get_last_number_question_and_answer(pwd)
 print (f"last_num_question {last_num_question} last_num_answer{last_num_answer}\n")
 

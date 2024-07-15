@@ -2,9 +2,9 @@
 #this is the main files when the program will start 
 
 import customtkinter as ctk
-#import View.objectsPrograms as obj
-##import objectsPrograms as obj
-import objectsPrograms as obj
+import View.objectsPrograms as obj
+# import objectsPrograms as obj
+#import objectsPrograms as obj
 from model.agentLogixMake_AI_Answers import initialize_agents
 
 
@@ -16,6 +16,7 @@ class GUIApp(ctk.CTk):
         self.last_num_answer = last_num_answer
         self.questions = []
         self.answers = []
+        self.key_words = []
         #factories
         self.factory_questions = obj.QuestionFactory( last_num_question)
         self.factory_answer_teacher = obj.AnswerFactory_teacher()
@@ -96,17 +97,7 @@ class GUIApp(ctk.CTk):
     
     #TODO
     def submit_question(self):
-        # question_text = self.question_entry.get("1.0", "end-1c")
-        # self.question_entry.delete("1.0", "end")
-
-        #TODO make a point submit text or a scaling option emenu
-        #pass        
-        # self.questions.append(self.factory_questions.createQuestion(self.question_entry.get("1.0", "end-1c")
-        #                                                        ,10,
-        #                                                        self.keywords_entry.get("1.0", "end-1c")
-        #                                                        ,))
-
-         # Retrieve input values
+        # Retrieve input values
         question_text = self.question_entry.get("1.0", "end-1c")
         keywords = self.keywords_entry.get("1.0", "end-1c")
         points = self.points_optionemenu.get("1.0", "end-1c")
@@ -132,7 +123,8 @@ class GUIApp(ctk.CTk):
         # Append the created objects to the lists
         self.questions.append(question)
         self.answers.append(answer)
-
+        self.key_words.append(keywords)
+        
         # Display the created question and answer (example: printing for now)
         print("Question:", question_text)
         print("Answer:", answers_text)
@@ -147,29 +139,6 @@ class GUIApp(ctk.CTk):
 
     #TODO
     def done_input(self):
-        #pass
-        # Initialize agents and run the group chat
-        #get question , answers , keys
-
-        # self.initialize_agents()
-        
-        # initializer.initiate_chat(manager, message=self.questions)
-        
-        # # Create a new window to display the answers
-        # answers_window = ctk.CTkToplevel(self.root)
-        # answers_window.title("Agent Answers")
-        
-        # answers_text = ctk.CTkTextbox(answers_window, width=600, height=400)
-        # answers_text.pack(pady=10)
-        
-        # answers = ""
-        # for message in groupchat.messages:
-        #     answers += message["content"] + "\n"
-        
-        # answers_text.insert("1.0", answers)
-        # Assuming `answers_teacher` is accessible or passed to this method
-        # initializer, manager, groupchat = initialize_agents(answers_teacher=self.answers)
-
         # # Initialize agents and run the group chat
         # initializer.initiate_chat(manager, message=self.questions)
 
@@ -190,8 +159,8 @@ class GUIApp(ctk.CTk):
 
          self.destroy()
 
-app = GUIApp(0,0)
-app.mainloop()
+# app = GUIApp(0,0)
+# app.mainloop()
 
 
 

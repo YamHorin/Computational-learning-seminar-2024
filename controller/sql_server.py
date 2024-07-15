@@ -27,7 +27,7 @@ class sql_server:
     def add_answers(self, answers):
         add_answer = '''INSTERT INTO answers_tbl (answer_text ,creadedBy ,question_id) VALUES (%s, %s, %s)'''
         for answer in answers:
-            data_answer = (answer.answer_text , answer.creadedBy , answer.id_question)
+            data_answer = (answer.text , answer.createdBy , answer.questionId)
             try:
                 self.cursor.execute(add_answer,data_answer)
             except MySQLError as e:
