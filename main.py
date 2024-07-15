@@ -14,6 +14,7 @@ if (letter.upper()=='Y'):
 print(f"your letter is : {letter.upper()}")
 last_num_question,last_num_answer = sql_starter.get_last_number_question_and_answer(pwd)
 print (f"last_num_question {last_num_question} last_num_answer{last_num_answer}\n")
+
 app = v.GUIApp(last_num_question,last_num_answer)
 print("app number 1 has been upload...")
 control_Teacher = ct.controllerTeacher(app ,pwd)
