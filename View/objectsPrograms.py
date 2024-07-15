@@ -49,5 +49,11 @@ class QuestionFactory():
         self.id =num
     def createQuestion(self, question_text, points,  keyWords,id_answer_teacher , answerFromTeacher ,test_id):
         self.id+=1
-        return Question(self.id, question_text, points,  keyWords,id_answer_teacher , answerFromTeacher ,test_id)
+        return Question(self.id, 
+                        question_text, 
+                        points,  
+                        keyWords,
+                        id_answer_teacher ,
+                        answerFromTeacher ,
+                        test_id)
     

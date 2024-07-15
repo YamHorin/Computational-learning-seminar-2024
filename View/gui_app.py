@@ -68,18 +68,16 @@ class GUIApp(ctk.CTk):
 
         self.points_label = ctk.CTkLabel(self, text="Points:", font=ctk.CTkFont(size=20, weight="bold"))
         self.points_label.grid(row=3, column=1, padx=10, pady=(10, 5), sticky="w")
-        self.points_optionemenu = ctk.CTkTextbox(self, width=400, height=100)
-        self.points_optionemenu.grid(row=3, column=1, columnspan=2,padx=10, pady=(5, 10))
+        self.points_question = ctk.CTkTextbox(self, width=400, height=100)
+        self.points_question.grid(row=3, column=1, columnspan=2,padx=10, pady=(5, 10))
 
         
-        self.submit_button = ctk.CTkButton(self, text="Submit data", command=self.submit_question, width=200, height=50)
+        self.submit_button = ctk.CTkButton(self, text="Submit", command=self.submit_question, width=200, height=50)
         self.submit_button.grid(row=4, column=2, padx=20, pady=10)
 
         self.done_button = ctk.CTkButton(self, text="Done", command=self.done_input, width=200, height=50)
         self.done_button.grid(row=4, column=3, padx=20, pady=10)
-    #TODO    
-    def change_points_event(self,new_points: str):
-        pass
+
     def change_appearance_mode_event(self, new_appearance_mode: str):
         ctk.set_appearance_mode(new_appearance_mode)
     
@@ -95,13 +93,11 @@ class GUIApp(ctk.CTk):
     def submit_question(self):
         # question_text = self.question_entry.get("1.0", "end-1c")
         # self.question_entry.delete("1.0", "end")
-
-        #TODO make a point submit text or a scaling option emenu
-        pass        
-        # self.questions.append(self.factory_questions.createQuestion(self.question_entry.get("1.0", "end-1c")
-        #                                                        ,10,
-        #                                                        self.keywords_entry.get("1.0", "end-1c")
-        #                                                        ,))
+         
+        self.questions.append(self.factory_questions.createQuestion(self.question_entry.get("1.0", "end-1c")
+                                                               ,self.points_question.get("1.0", "end-1c"),
+                                                               self.keywords_entry.get("1.0", "end-1c")
+                                                               ,))
 
     #TODO
     def done_input(self):
@@ -128,3 +124,4 @@ class GUIApp(ctk.CTk):
 
 app = GUIApp(0,0)
 app.mainloop()
+
