@@ -8,6 +8,7 @@
 import mysql.connector
 from mysql.connector import errorcode
 import maskpass
+
 def database_initialization(pwd):
 
   
@@ -98,3 +99,110 @@ def get_last_number_question_and_answer(pwd):
   cnx.close()      
 
   return num_qu,num_ans
+
+
+####################################################################
+#This version check if the DB exists, if not -> create it then continue
+####################################################################
+# import mysql.connector
+# from mysql.connector import errorcode
+# import maskpass
+
+# def create_database(pwd):
+#     try:
+#         cnx = mysql.connector.connect(user='root', password=pwd)
+#         mycursor = cnx.cursor()
+
+#         # Check if the database exists
+#         mycursor.execute("SHOW DATABASES")
+#         databases = [database[0] for database in mycursor]
+
+#         if 'ai_answers' not in databases:
+#             # Create the database if it doesn't exist
+#             mycursor.execute("CREATE DATABASE ai_answers")
+
+#         mycursor.close()
+#         cnx.close()
+
+#     except mysql.connector.Error as err:
+#         print(f"Error creating database: {err}")
+#         raise
+
+# def database_initialization(pwd):
+#     try:
+#         # Create the database if it doesn't exist
+#         create_database(pwd)
+
+#         # Now connect to the database
+#         cnx = mysql.connector.connect(user='root', password=pwd, database='ai_answers')
+#         mycursor = cnx.cursor()
+
+#         # Create tables if they don't exist
+#         mycursor.execute('''
+#             CREATE TABLE IF NOT EXISTS test (
+#                 test_id INT AUTO_INCREMENT PRIMARY KEY,
+#                 test_name VARCHAR(255) NOT NULL
+#             );
+#         ''')
+
+#         mycursor.execute('''
+#             CREATE TABLE IF NOT EXISTS questions_tbl (
+#                 questions_id INT PRIMARY KEY,
+#                 questions_text VARCHAR(1000) NOT NULL,
+#                 points INT,
+#                 test_id  INT,
+#                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+#                 FOREIGN KEY (test_id) REFERENCES test(test_id)
+#             );
+#         ''')
+
+#         mycursor.execute('''
+#             CREATE TABLE IF NOT EXISTS answers_tbl (
+#                 answer_id INT AUTO_INCREMENT PRIMARY KEY,
+#                 answer_text VARCHAR(1000) NOT NULL,
+#                 creadedBy VARCHAR(1000),
+#                 question_id INT NOT NULL,
+#                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+#             );
+#         ''')
+
+#         cnx.commit()
+#         mycursor.close()
+#         cnx.close()
+
+#     except mysql.connector.Error as err:
+#         print(f"Error initializing database: {err}")
+#         raise
+
+# def get_last_number_question_and_answer(pwd):
+#     try:
+#         # Create the database if it doesn't exist
+#         create_database(pwd)
+
+#         # Connect to the database
+#         cnx = mysql.connector.connect(user='root', password=pwd, database='ai_answers')
+#         mycursor = cnx.cursor(buffered=True)
+
+#         database = 'ai_answers'
+#         mycursor.execute(f'USE {database};')
+
+#         mycursor.execute('SELECT COUNT(*) FROM questions_tbl')
+#         num_qu = mycursor.fetchone()[0]  # Get the count result
+
+#         mycursor.execute('SELECT COUNT(*) FROM answers_tbl')
+#         num_ans = mycursor.fetchone()[0]  # Get the count result
+
+#         cnx.commit()
+#         mycursor.close()
+#         cnx.close()
+
+#         return num_qu, num_ans
+
+#     except mysql.connector.Error as err:
+#         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+#             print("\n\nSomething is wrong with your user name or password\n\n")
+#         elif err.errno == errorcode.ER_BAD_DB_ERROR:
+#             print("\n\nDatabase does not exist\n\n")
+#         else:
+#             print(err)
+#         return None, None

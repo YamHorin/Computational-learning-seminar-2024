@@ -46,7 +46,8 @@ class Question():
 
 class QuestionFactory():
     def __init__(self , num):
-        self.id =num
+        ######self.id =num              gives an error
+        self.id = num if num is not None else 0
     def createQuestion(self, question_text, points,  keyWords,id_answer_teacher , answerFromTeacher ,test_id):
         self.id+=1
         return Question(self.id, 

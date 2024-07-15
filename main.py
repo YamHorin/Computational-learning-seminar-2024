@@ -18,3 +18,4 @@ app = v.GUIApp(last_num_question,last_num_answer)
 print("app number 1 has been upload...")
 control_Teacher = ct.controllerTeacher(app ,pwd)
 control_Teacher.runApp()
+
