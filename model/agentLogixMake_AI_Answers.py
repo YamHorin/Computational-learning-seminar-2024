@@ -15,7 +15,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import autogen as ag
 import re
-import model.cosineSimilarityMatrix as cosin
+import Model.cosineSimilarityMatrix as cosin
 import View.objectsPrograms
 #answers_teacher - list of View.objectsPrograms Answers
 def initialize_agents(answers_teacher):

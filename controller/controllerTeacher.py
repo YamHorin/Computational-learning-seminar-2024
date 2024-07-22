@@ -1,5 +1,5 @@
 
-from model.agentLogixMake_AI_Answers import initialize_agents
+from Model.agentLogixMake_AI_Answers import initialize_agents
 import controller.sql_server as sql
 
 class controllerTeacher():

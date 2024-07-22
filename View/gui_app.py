@@ -5,7 +5,7 @@ import customtkinter as ctk
 import View.objectsPrograms as obj
 # import objectsPrograms as obj
 #import objectsPrograms as obj
-from model.agentLogixMake_AI_Answers import initialize_agents
+from Model.agentLogixMake_AI_Answers import initialize_agents
 
 
 class GUIApp(ctk.CTk):
