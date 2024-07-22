@@ -3,14 +3,15 @@ import customtkinter as ctk
 from datetime import datetime, timedelta
 
 class StudentGUI(ctk.CTk):
-    def __init__(self, questions, model, on_done_callback):
+    def __init__(self, questions, model, on_done_callback, correct_answers, points):
         super().__init__()
         self.questions = questions
         self.model = model
         self.student_answers = []
         self.current_question_index = 0
         self.on_done_callback = on_done_callback
-
+        self.correct_answers = correct_answers
+        self.points = points
         
         self.title("Student Test Interface")
         self.geometry("1100x1100")
@@ -103,7 +104,7 @@ class StudentGUI(ctk.CTk):
         print("Grades:", grades)
         self.model.save_grades(grades)
         # Call the callback function to start the autogen agent
-        self.on_done_callback()
+        self.on_done_callback(grades, self.correct_answers, self.points)
         self.destroy()
 
     def update_timer(self):

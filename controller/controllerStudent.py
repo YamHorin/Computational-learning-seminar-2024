@@ -9,16 +9,25 @@ import subprocess
 
 from View.student_screen import StudentGUI
 from Model.student_model import StudentModel
+from Model.agentLogicGradeStudent import KevinAgent
 
 def start_student_interface(questions, correct_answers, keywords, points):
     model = StudentModel(correct_answers, keywords, points)
-    gui = StudentGUI(questions, model, on_done_callback)
+#    gui = StudentGUI(questions, model, on_done_callback)
+    gui = StudentGUI(questions, model, on_done_callback, correct_answers, points)
     gui.mainloop()
 
-def on_done_callback():
-    # Function to initialize and start the autogen agent
-    # subprocess.run(["python", "agent.py"])
-    pass
+def on_done_callback(grades, correct_answers, points):
+     # Initialize the agent with correct answers and points
+    agent = KevinAgent(correct_answers, points)
+    initializer, manager, groupchat = agent.initialize_agents()
+    
+    # Provide feedback using the grades
+    feedback = agent.provide_feedback(grades)
+    
+    # Print or handle the feedback as needed
+    print("Feedback from Agent:")
+    print(feedback)
 
 
 # import sys
