@@ -10,7 +10,7 @@ questions = [
 # Example correct answers and keywords
 correct_answers = [
     "The color of the sky is blue",
-    "T he capital of France is Paris",
+    "The capital of France is Paris",
     "Shakespeare wrote 'Romeo and Juliet'"
 ]
 

@@ -13,9 +13,13 @@ class StudentModel:
             # Calculate cosine similarity
             similarity = caculateSimilarityAnswersWithKeyWordStudentToAgent(self.correct_answers[i], answer, self.keywords[i])
             # Calculate actual grade
-            grade = similarity * self.points[i]
+            if similarity < 0.8:
+                grade = similarity * self.points[i]
+            else: 
+                grade = self.points[i]
             grades.append(grade)
         return grades
+    
     def save_grades(self, grades):
         print("NEED TO SAVE GRADES IN DB")
         pass
