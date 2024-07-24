@@ -17,17 +17,26 @@ def start_student_interface(questions, correct_answers, keywords, points):
     gui = StudentGUI(questions, model, on_done_callback, correct_answers, points)
     gui.mainloop()
 
-def on_done_callback(grades, correct_answers, points):
+def on_done_callback(grades, correct_answers, points, student_answers, final_grade):
      # Initialize the agent with correct answers and points
+    # agent = KevinAgent(correct_answers, points)
+    # initializer, manager, groupchat = agent.initialize_agents()
+    
+    # # Provide feedback using the grades
+    # feedback = agent.provide_feedback(grades)
+    
+    # # Print or handle the feedback as needed
+    # print("Feedback from Agent:")
+    # print(feedback)
+
     agent = KevinAgent(correct_answers, points)
     initializer, manager, groupchat = agent.initialize_agents()
-    
-    # Provide feedback using the grades
-    feedback = agent.provide_feedback(grades)
-    
-    # Print or handle the feedback as needed
-    print("Feedback from Agent:")
-    print(feedback)
+
+    # Start the conversation by sending a message to the group chat
+    initial_message = "Provide feedback based on the following grades and answers: " + str(grades) + str(student_answers)
+    chat_result = initializer.initiate_chat(manager, message=initial_message)
+
+    print(f"Final test grade: {final_grade}")
 
 
 # import sys

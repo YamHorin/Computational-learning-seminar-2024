@@ -18,7 +18,11 @@ class StudentModel:
             else: 
                 grade = self.points[i]
             grades.append(grade)
+        self.save_grades(grades)
         return grades
+    
+    def final_grade(self, grades):
+        return sum(grades)
     
     def save_grades(self, grades):
         print("NEED TO SAVE GRADES IN DB")

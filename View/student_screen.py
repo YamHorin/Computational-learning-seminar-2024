@@ -103,8 +103,9 @@ class StudentGUI(ctk.CTk):
         grades = self.model.grade_answers(self.student_answers)
         print("Grades:", grades)
         self.model.save_grades(grades)
+        final_grade = self.model.final_grade(grades)
         # Call the callback function to start the autogen agent
-        self.on_done_callback(grades, self.correct_answers, self.points)
+        self.on_done_callback(grades, self.correct_answers, self.points, self.student_answers, final_grade)
         self.destroy()
 
     def update_timer(self):
