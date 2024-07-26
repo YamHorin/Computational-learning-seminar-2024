@@ -85,6 +85,9 @@ def initialize_agents(answers_teacher, key_words):
             all_answers = extract_answers(text)
             total_score = 0
             counter_total_answer = len(all_answers)
+            if (counter_total_answer==0):
+                return bob  # Request better answers from Bob
+
             for answer, key_words_answer in zip(answers_teacher, key_words):
                 for answerAI in all_answers:
                     score = cosin(answerAI, answer.text, key_words_answer)
@@ -92,6 +95,7 @@ def initialize_agents(answers_teacher, key_words):
             average = total_score / counter_total_answer
             print(f"Average score: {average}")
             if average <= 60:
+                groupchat.messages.append({"content": "The previous answers were not satisfactory. Please provide better answers.", "sender": "Init"})
                 return bob  # Request better answers from Bob
             else:
                 return initializer  # End conversation if answers are satisfactory
