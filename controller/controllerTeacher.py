@@ -1,5 +1,5 @@
 
-from Model.agentLogixMake_AI_Answers import initialize_agents
+from model.agentLogixMake_AI_Answers import initialize_agents
 import controller.sql_server as sql
 
 class controllerTeacher():
@@ -17,10 +17,17 @@ class controllerTeacher():
               
               
               initializer, manager, groupchat = initialize_agents(answers)
-              msg = ("Questions: ".join(i+question+"\n" for i,question in enumerate(questions))+
-                     "Answers :".join(i+answer+"\n" for i,answer in enumerate(answers))+
-                     "key words :".join(i+key_word+"\n" for i,key_word in enumerate(key_words)))
+              questions_text = "Questions:\n" + "\n".join(f"{i}: {question.text}" for i, question in enumerate(questions))
+              answers_text = "Answers:\n" + "\n".join(f"{i}: {answer.text}" for i, answer in enumerate(answers))
+              key_words_text = "Keywords:\n" + "\n".join(f"{i}: {key_word.text}" for i, key_word in enumerate(key_words))
+
+              # Combine all parts into one message
+              msg = f"{questions_text}\n\n{answers_text}\n\n{key_words_text}"
               initializer.initiate_chat(manager, message=msg)
+              messages = groupchat.messages
+              text = str(messages[-1]["content"])
+              print (text)
+              return text
        
 
 

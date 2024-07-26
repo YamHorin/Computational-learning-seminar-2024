@@ -19,27 +19,35 @@ class sql_server:
             else:
                 print(err)
         print("connection with the my sql database has been complete\n\n")
+        self.cnx.database = database
         self.database_name = database
         self.cursor = self.cnx.cursor()
         self.cursor.execute(f'USE {database};')
 
 
     def add_answers(self, answers):
-        add_answer = '''INSTERT INTO answers_tbl (answer_text ,creadedBy ,question_id) VALUES (%s, %s, %s)'''
+        add_answer = '''INSERT INTO answers_tbl (answer_text, createdBy, question_id) VALUES (%s, %s, %s)'''
+
         for answer in answers:
-            data_answer = (answer.text , answer.createdBy , answer.questionId)
+            data_answer = (answer.text, answer.createdBy, answer.questionId)
+            print(add_answer, data_answer)  # Print for debugging (optional)
+
             try:
-                self.cursor.execute(add_answer,data_answer)
+                self.cursor.execute(add_answer, data_answer)
             except MySQLError as e:
                 print(f"Error: {e}")
-            print("insert in the sql database:")
-            answer.show()
+
+            print("Inserted answer:")  # Print message after successful insert
+            answer.show()  # Call the show method to display the answer details
+        self.cnx.commit()
+
         
 
-    def add_questions(self,questions , test_id):
-        add_question = '''INSTERT INTO questions_tbl (questions_id ,questions_text ,points ,test_id ) VALUES (%s, %s, %s,%s)'''
+    def add_questions(self,questions):
+        add_question = '''INSERT INTO questions_tbl (questions_id, questions_text, points) VALUES (%s, %s, %s)'''
         for qu in questions:
-            data_question = (qu.id , qu.text , qu.points,test_id )
+            data_question = (qu.id , qu.text , qu.points )
+            print (data_question)
             try:
                 self.cursor.execute(add_question,data_question)
             except MySQLError as e:
@@ -47,9 +55,10 @@ class sql_server:
             print("insert in the sql database:")
             qu.show()
         print(f"insert questions in the sql database: {questions}")
+        self.cnx.commit()
 
-    def add_test(self,test_name):
-        self.cursor.execute(sql = f"INSERT INTO test (test_name) VALUES ({test_name})")
+
+
     def close_connection(self):
         self.cursor.close()
         self.cnx.close()        

@@ -8,8 +8,8 @@ import subprocess
 #                                    then activate agent 
 
 from View.student_screen import StudentGUI
-from Model.student_model import StudentModel
-from Model.agentLogicGradeStudent import KevinAgent
+from model.student_model import StudentModel
+from model.agentLogicGradeStudent import KevinAgent
 
 def start_student_interface(questions, correct_answers, keywords, points):
     model = StudentModel(correct_answers, keywords, points)
