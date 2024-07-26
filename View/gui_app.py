@@ -99,23 +99,23 @@ class GUIApp(ctk.CTk):
         self.question_entry.insert('1.0',"What are the primary factors that influence the demand for a good or service in a competitive market?")
         self.answer_entry.insert('1.0','''The primary factors that influence the demand for a good or service in a competitive market are:
 
-                                            Price of the Good or Service: Generally, as the price of a good or service decreases, the quantity demanded increases, and vice versa (law of demand).
+Price of the Good or Service: Generally, as the price of a good or service decreases, the quantity demanded increases, and vice versa (law of demand).
 
-                                            Income of Consumers: As consumers' income increases, they are typically able to purchase more goods and services, shifting the demand curve to the right. Conversely, a decrease in income will usually decrease demand.
+Income of Consumers: As consumers' income increases, they are typically able to purchase more goods and services, shifting the demand curve to the right. Conversely, a decrease in income will usually decrease demand.
 
-                                            Prices of Related Goods:
-                                                Substitutes: If the price of a substitute good rises, the demand for the good in question may increase.
-                                                Complements: If the price of a complementary good rises, the demand for the good in question may decrease.
+Prices of Related Goods:
+    Substitutes: If the price of a substitute good rises, the demand for the good in question may increase.
+    Complements: If the price of a complementary good rises, the demand for the good in question may decrease.
 
-                                            Consumer Preferences: Changes in tastes and preferences can increase or decrease demand. For example, if a good becomes fashionable, demand for it will increase.
+Consumer Preferences: Changes in tastes and preferences can increase or decrease demand. For example, if a good becomes fashionable, demand for it will increase.
 
-                                            Expectations of Future Prices: If consumers expect prices to rise in the future, they may increase their current demand. Conversely, if they expect prices to fall, they might reduce current demand.
+Expectations of Future Prices: If consumers expect prices to rise in the future, they may increase their current demand. Conversely, if they expect prices to fall, they might reduce current demand.
 
-                                            Number of Buyers: An increase in the number of consumers can increase demand, while a decrease in the number of consumers can reduce demand.
+Number of Buyers: An increase in the number of consumers can increase demand, while a decrease in the number of consumers can reduce demand.
 
-                                            Seasonal Changes: Certain goods and services experience changes in demand due to seasonal factors.
+Seasonal Changes: Certain goods and services experience changes in demand due to seasonal factors.
 
-                                            Advertising and Publicity: Effective advertising can increase demand by making more consumers aware of the good or service.''')
+Advertising and Publicity: Effective advertising can increase demand by making more consumers aware of the good or service.''')
                                                 
         self.keywords_entry.insert('1.0' ,'competitive market , Advertising and Publicity , consumers')
         self.points_question.insert('1.0' , '15')
