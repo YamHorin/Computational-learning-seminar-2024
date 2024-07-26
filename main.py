@@ -1,37 +1,37 @@
-from controller.controllerStudent import start_student_interface
-from Model.student_model import StudentModel as sm
-from Model.agentLogicGradeStudent import KevinAgent
-
-# RUN STUDENT SIDE
-# Example data for testing
-questions = [
-    "What year world war 2 started",
-    "What is the capital of France?",
-    "Who wrote 'Romeo and Juliet'?"
-]
-
-# Example correct answers and keywords
-correct_answers = [
-    "World war 2 started in 1939",
-    "The capital of France is Paris",
-    "Shakespeare wrote 'Romeo and Juliet'"
-]
-
-keywords = [
-    ["1939"],
-    ["Paris"],
-    ["Shakespeare"]
-]
-
-# Points for each question
-points = [3, 5, 10]
-student_answers = [
-    "The sky is blue",
-    "The capital is Paris",
-    "Shakespeare"
-]
-
-start_student_interface(questions, correct_answers, keywords, points)
+# from controller.controllerStudent import start_student_interface
+# from Model.student_model import StudentModel as sm
+# from Model.agentLogicGradeStudent import KevinAgent
+#
+# # RUN STUDENT SIDE
+# # Example data for testing
+# questions = [
+#     "What year world war 2 started",
+#     "What is the capital of France?",
+#     "Who wrote 'Romeo and Juliet'?"
+# ]
+#
+# # Example correct answers and keywords
+# correct_answers = [
+#     "World war 2 started in 1939",
+#     "The capital of France is Paris",
+#     "Shakespeare wrote 'Romeo and Juliet'"
+# ]
+#
+# keywords = [
+#     ["1939"],
+#     ["Paris"],
+#     ["Shakespeare"]
+# ]
+#
+# # Points for each question
+# points = [3, 5, 10]
+# student_answers = [
+#     "The sky is blue",
+#     "The capital is Paris",
+#     "Shakespeare"
+# ]
+#
+# start_student_interface(questions, correct_answers, keywords, points)
 
 
 # model = sm(correct_answers, keywords, points)
@@ -64,24 +64,24 @@ start_student_interface(questions, correct_answers, keywords, points)
 
     
 # MAIN TO RUN TEACHER SIDE
-# import View.gui_app as v
-# import controller.sql_server_starter as sql_starter
-# import controller.controllerTeacher as ct
-# import Model as m
-# import maskpass
+import View.gui_app as v
+import controller.sql_server_starter as sql_starter
+import controller.controllerTeacher as ct
+# import model as m
+#import maskpass
 
-# print("\n\ndo you have the my sql database?\n y/Y-yes else-no")
-# letter = input()
-# #pwd = input("Password for sql account:")
-# pwd = maskpass.askpass(prompt="Password for sql account:", mask="#")
+print("\n\ndo you have the my sql database?\n y/Y-yes else-no")
+letter = input()
+pwd = input("Password for sql account:")
+#pwd = maskpass.askpass(prompt="Password for sql account:", mask="#")
 
-# if (letter.upper()=='Y'):
-#     sql_starter.database_initialization(pwd)
-# print(f"your letter is : {letter.upper()}")
-# last_num_question,last_num_answer = sql_starter.get_last_number_question_and_answer(pwd)
-# print (f"last_num_question {last_num_question} last_num_answer{last_num_answer}\n")
+if letter.upper() == 'Y':
+    sql_starter.database_initialization(pwd)
+print(f"your letter is : {letter.upper()}")
+last_num_question, last_num_answer = sql_starter.get_last_number_question_and_answer(pwd)
+print(f"last_num_question {last_num_question} last_num_answer{last_num_answer}\n")
 
-# app = v.GUIApp(last_num_question,last_num_answer)
-# print("app number 1 has been upload...")
-# control_Teacher = ct.controllerTeacher(app ,pwd)
-# control_Teacher.runApp()
+app = v.GUIApp(last_num_question, last_num_answer)
+print("app number 1 has been upload...")
+control_Teacher = ct.controllerTeacher(app, pwd)
+control_Teacher.run_app()

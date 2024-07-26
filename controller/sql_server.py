@@ -5,12 +5,13 @@
 import mysql.connector
 from mysql.connector import errorcode
 from pymysql import MySQLError
+from controller.sql_server_starter import get_connection
+
+
 class sql_server:
-    def __init__(self ,user_sql, password_sql ,database):
+    def __init__(self, user_sql, password_sql, database):
         try:
-            self.cnx = mysql.connector.connect( user = user_sql,
-                                                password = password_sql,
-                                                database=database)
+            self.cnx = get_connection(password_sql)
         except mysql.connector.Error as err:
             if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
                 print("Something is wrong with your user name or password")
@@ -25,11 +26,11 @@ class sql_server:
 
 
     def add_answers(self, answers):
-        add_answer = '''INSTERT INTO answers_tbl (answer_text ,creadedBy ,question_id) VALUES (%s, %s, %s)'''
+        add_answer = '''INSTERT INTO answers_t (answer_text ,creadedBy ,question_id) VALUES (%s, %s, %s)'''
         for answer in answers:
-            data_answer = (answer.text , answer.createdBy , answer.questionId)
+            data_answer = (answer.text, answer.createdBy, answer.questionId)
             try:
-                self.cursor.execute(add_answer,data_answer)
+                self.cursor.execute(add_answer, data_answer)
             except MySQLError as e:
                 print(f"Error: {e}")
             print("insert in the sql database:")
@@ -52,4 +53,4 @@ class sql_server:
         self.cursor.execute(sql = f"INSERT INTO test (test_name) VALUES ({test_name})")
     def close_connection(self):
         self.cursor.close()
-        self.cnx.close()        
+        self.cnx.close()

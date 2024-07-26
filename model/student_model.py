@@ -1,4 +1,4 @@
-from Model.cosineSimilarityMatrix import caculateSimilarityAnswersWithKeyWordStudentToAgent
+from model.cosineSimilarityMatrix import caculateSimilarityAnswersWithKeyWordStudentToAgent
 
 
 class StudentModel:

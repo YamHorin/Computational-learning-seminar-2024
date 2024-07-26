@@ -1,5 +1,5 @@
-class Answer():
-    def __init__(self , answer_text , id_question , creadedBy):
+class Answer:
+    def __init__(self, answer_text, id_question, creadedBy):
         self.text = answer_text
         self.questionId = id_question
         self.createdBy = creadedBy
@@ -14,12 +14,12 @@ class Answer():
 
 
 class AnswerFactory_teacher():
-    def createAnswer(self , answers_text, answer_points, id_question):
-        return Answer(answers_text, id_question , "teacher")
+    def createAnswer(self, answers_text, answer_points, id_question):
+        return Answer(answers_text, id_question, "teacher")
 
 class AnswerFactory_Agent():
     def createAnswer(self , answers_text, answer_points, id_question):
-        return Answer(answers_text, id_question , "Agent")
+        return Answer(answers_text, id_question, "Agent")
 
 class Question():
     def __init__(self ,id, question_text, points,  keyWords,id_answer_teacher , answerFromTeacher ,test_id):
