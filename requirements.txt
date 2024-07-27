@@ -4,3 +4,4 @@ scikit-learn
 pyautogen
 customtkinter
 cx_Oracle
+pymysql

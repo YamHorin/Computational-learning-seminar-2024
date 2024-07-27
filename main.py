@@ -83,7 +83,6 @@ if __name__ == "__main__":
     print(f"your letter is : {letter.upper()}")
     sql_starter.clean_data_sql(pwd)
     last_num_question,last_num_answer = 0,0
-    print (f"last_num_question {last_num_question} last_num_answer{last_num_answer}\n")
 
     app = v.GUIApp(last_num_question,last_num_answer)
     control_Teacher = ct.controllerTeacher(app ,pwd)

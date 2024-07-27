@@ -3,11 +3,6 @@
 
 import customtkinter as ctk
 import View.objectsPrograms as obj
-# import objectsPrograms as obj
-#import objectsPrograms as obj
-from model.agentLogixMake_AI_Answers import initialize_agents
-
-
 import customtkinter as ctk
 
 class GUIApp(ctk.CTk):
@@ -140,6 +135,15 @@ Advertising and Publicity: Effective advertising can increase demand by making m
         new_scaling_float = int(new_scaling.replace("%", "")) / 100
         ctk.set_widget_scaling(new_scaling_float)    
     
+    def schedule_after(self, delay, callback):
+        after_id = self.after(delay, callback)
+        self.after_ids.append(after_id)
+        return after_id
+
+    def cancel_after_callbacks(self):
+        for after_id in self.after_ids:
+            self.after_cancel(after_id)
+        self.after_ids.clear()
 
     
     
@@ -194,11 +198,7 @@ Advertising and Publicity: Effective advertising can increase demand by making m
         self.keywords_entry.delete("1.0", "end")
         self.points_question.delete("1.0", "end")
 
-        for after_id in self.after_ids:
-            self.after_cancel(after_id)
-
-        # Clear the list of after IDs
-        self.after_ids.clear()
+        self.cancel_after_callbacks()
         # Create a new window to display the answers (example: printing for now)
         self.destroy()
 

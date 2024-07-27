@@ -57,8 +57,18 @@ class sql_server:
         print(f"insert questions in the sql database: {questions}")
         self.cnx.commit()
 
-
-
+    def last_number_objects(self):
+        self.cursor.execute(f'USE {self.database};')
+        num_qu  =self.cursor.execute('''
+        SELECT COUNT(*)
+        FROM questions_tbl 
+        ''')
+        num_ans  =self.cursor.execute('''
+        SELECT COUNT(*)
+        FROM answers_tbl 
+        ''')
+        self.cnx.commit()
+        return num_ans , num_qu
     def close_connection(self):
         self.cursor.close()
         self.cnx.close()        

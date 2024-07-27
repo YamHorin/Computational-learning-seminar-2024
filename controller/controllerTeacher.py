@@ -1,5 +1,6 @@
-
+import View.loading_window as l
 from model.agentLogixMake_AI_Answers import initialize_agents
+import View.objectsPrograms as obj
 import controller.sql_server as sql
 
 class controllerTeacher():
@@ -8,12 +9,23 @@ class controllerTeacher():
               self.sql_server = sql.sql_server( 'root',pwd,'ai_answers')
        def runApp(self):
               self.app.mainloop()
-              #self.loading_window.mainloop()
-              answers = self.getAIAnswers(self.app.questions ,self.app.answers )
-              print(answers)
-              #self.loading_window.destroy()
-              #TODO put the answers in the database...
+              answers_ai = self.getAIAnswers(self.app.questions ,self.app.answers )
+              print('answers_ai: \n\n')
+              print(answers_ai)
+              self.enter_agents_answers_in_db(answers_ai ,self.app.answers)
+              
               #TODO a new window of show answers and opsion to edit them
+       def enter_agents_answers_in_db(self,answers_agent , answers_teacher):
+            factory = obj.AnswerFactory_Agent()
+            answers_to_db = []
+            for one_answer_teacher in answers_teacher:  
+                for answer in answers_agent:
+                     answer_obj = factory.createAnswer(answer
+                                                       ,one_answer_teacher.points 
+                                                       , one_answer_teacher.questionId )
+                     answers_to_db.append(answer_obj)
+            self.sql_server.add_answers(answers_to_db)
+            
        def getAIAnswers(self,questions , answers):
               print("Initializing agents and starting group chat...")
               self.sql_server.add_answers(answers)
