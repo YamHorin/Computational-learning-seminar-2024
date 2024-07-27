@@ -48,6 +48,10 @@ class TestAnswersWindow(ctk.CTk):
             edit_button.pack(side="right", padx=10)
             
             self.answer_widgets.append((answer_label, edit_button))
+        
+        # Add the Done button at the bottom
+        done_button = ctk.CTkButton(self, text="Done", font=LARGE_FONT, command=self.done)
+        done_button.pack(pady=20)
     
     def edit_answer(self, index):
         current_answer = self.answers[index]
@@ -59,6 +63,16 @@ class TestAnswersWindow(ctk.CTk):
             width = max(20, len(edit_dialog.result) // 2)  # Adjust as needed
             self.answer_widgets[index][0].configure(text=edit_dialog.result, width=width)
             messagebox.showinfo("Success", f"Answer {index + 1} updated.")
+
+    def done(self):
+        #self.cleanup()
+        self.destroy()
+        #messagebox.showinfo("Done", "All answers are updated and saved!")
+
+    def cleanup(self):
+        # Perform any additional cleanup here if needed
+        # Example: Ensure all widgets are properly handled
+        print("Performing cleanup...")
 
 if __name__ == "__main__":
     answers = ["Answer 1", "A very very very very long answer that needs more space", "Answer 3", "Another long answer to test the width adjustment"]

@@ -124,9 +124,7 @@ Advertising and Publicity: Effective advertising can increase demand by making m
 
 
 
-    def done_input(self):
-        print("Done button clicked")
-        # Logic to handle done
+   
 
     def change_appearance_mode_event(self, new_appearance_mode: str):
         ctk.set_appearance_mode(new_appearance_mode)
