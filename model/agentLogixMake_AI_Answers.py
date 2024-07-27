@@ -69,6 +69,19 @@ def initialize_agents(answers_teacher, key_words):
         human_input_mode="NEVER",  # Never ask for human input.
     )
 
+
+    helper = ag.ConversableAgent(
+        "helper",
+        system_message='''
+        Your job is to tell Bob to the following message: "hey bob remake the answers better" for every time it's your turn to speak in the chat.
+        ''',
+        llm_config={"config_list": config_list},
+        human_input_mode="NEVER",  # Never ask for human input.
+
+        )
+        
+    
+
     initializer = ag.UserProxyAgent(
         name="Init",
         system_message='Please provide the questions and key words to Bob.',
@@ -79,6 +92,8 @@ def initialize_agents(answers_teacher, key_words):
         text = str(messages[-1]["content"])
         if last_speaker is initializer:
             # init -> retrieve
+            return bob
+        elif last_speaker is helper:
             return bob
         elif last_speaker is bob:
             # Calculate similarity to each answer
@@ -93,18 +108,17 @@ def initialize_agents(answers_teacher, key_words):
                     score = cosin(answerAI, answer.text, key_words_answer)
                     total_score += score * 100
             average = total_score / counter_total_answer
-            print(f"Average score: {average}")
+            #print(f"Average score: {average}")
             if average <= 60:
-                groupchat.messages.append({"content": "The previous answers were not satisfactory. Please provide better answers.", "sender": "Init"})
-                return bob  # Request better answers from Bob
+                return helper  # Request better answers from Bob
             else:
                 return initializer  # End conversation if answers are satisfactory
 
     # Making the group chat
     groupchat = ag.GroupChat(
-        agents=[initializer, bob],
-        messages=[{"content": "Start the conversation by providing questions and key words.", "sender": "Init"}],
-        max_round=20,
+        agents=[initializer, bob, helper],
+        messages=[],
+        max_round=13,
         speaker_selection_method=state_transition,
     )
 

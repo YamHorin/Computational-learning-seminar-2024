@@ -8,8 +8,12 @@ class controllerTeacher():
               self.sql_server = sql.sql_server( 'root',pwd,'ai_answers')
        def runApp(self):
               self.app.mainloop()
-              self.getAIAnswers(self.app.questions ,self.app.answers )
-
+              #self.loading_window.mainloop()
+              answers = self.getAIAnswers(self.app.questions ,self.app.answers )
+              print(answers)
+              #self.loading_window.destroy()
+              #TODO put the answers in the database...
+              #TODO a new window of show answers and opsion to edit them
        def getAIAnswers(self,questions , answers):
               print("Initializing agents and starting group chat...")
               self.sql_server.add_answers(answers)
@@ -26,9 +30,34 @@ class controllerTeacher():
               initializer.initiate_chat(manager, message=msg)
               messages = groupchat.messages
               text = str(messages[-1]["content"])
+              if messages[-1]['name'] == 'helper':
+                     text = str(messages[-2]["content"])
               print (text)
-              return text
+              list_answers = extract_answers(text)
+              return list_answers
        
 
 
 
+def extract_answers(text):
+    # Split the text into lines
+    lines = text.strip().split('\n')
+
+    # Find the line containing the answers
+    answers_start = False
+    answers = []
+
+    for line in lines:
+        if line.strip().startswith("the answers for"):
+            answers_start = True
+            continue
+        
+        if answers_start:
+            # Remove leading numbers and dots
+            if line.strip() and not line.strip().lower().startswith("end"):
+                answer = line.split('. ', 1)[-1]
+                answers.append(answer)
+            elif line.strip().lower().startswith("end"):
+                answers_start = False
+    
+    return answers

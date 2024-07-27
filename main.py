@@ -71,7 +71,7 @@ import model as m
 import maskpass
 import subprocess
 if __name__ == "__main__":
-    subprocess.check_call(["ollama", "pull", "llama3"])
+    #subprocess.check_call(["ollama", "pull", "llama3"])
 
     print("\n\ndo you have the my sql database?\n y/Y-yes else-no")
     letter = input()
@@ -86,6 +86,5 @@ if __name__ == "__main__":
     print (f"last_num_question {last_num_question} last_num_answer{last_num_answer}\n")
 
     app = v.GUIApp(last_num_question,last_num_answer)
-    print("app number 1 has been upload...")
     control_Teacher = ct.controllerTeacher(app ,pwd)
     control_Teacher.runApp()

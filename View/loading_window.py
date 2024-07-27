@@ -33,5 +33,5 @@ class App(customtkinter.CTk):
         self.angle = (self.angle + 30) % 360
         self.after(50, self.animate_loading_circle)  # Adjust the delay as needed
 
-app = App()
-app.mainloop()
+# app = App()
+# app.mainloop()

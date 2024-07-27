@@ -39,8 +39,8 @@ def calculateSimilarityAnswersWithKeyWordAgentToTeacher(AI_answer, teacher_answe
         total_keywords = len(keyWords)
         counter_key_words = sum(1 for word in ai_words if word in keyWords) / total_keywords
     
-    print(f"Cosine Similarity: {cosine_sim[0][0]}\n\n")
-    print(f"Keyword Fraction: {counter_key_words}")
+    # print(f"Cosine Similarity: {cosine_sim[0][0]}\n\n")
+    # print(f"Keyword Fraction: {counter_key_words}")s
 
     if keyWords:
         return cosine_sim[0][0] * 0.7 + counter_key_words * 0.3

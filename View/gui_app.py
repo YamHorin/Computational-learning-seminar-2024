@@ -12,6 +12,7 @@ import customtkinter as ctk
 
 class GUIApp(ctk.CTk):
     def __init__(self, last_num_question, last_num_answer):
+        self.after_ids = []
         super().__init__()
         # Things for logic
         self.last_num_question = last_num_question
@@ -193,6 +194,11 @@ Advertising and Publicity: Effective advertising can increase demand by making m
         self.keywords_entry.delete("1.0", "end")
         self.points_question.delete("1.0", "end")
 
+        for after_id in self.after_ids:
+            self.after_cancel(after_id)
+
+        # Clear the list of after IDs
+        self.after_ids.clear()
         # Create a new window to display the answers (example: printing for now)
         self.destroy()
 
