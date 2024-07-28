@@ -1,4 +1,4 @@
-import View.loading_window as l
+import View.answers_window as window
 from model.agentLogixMake_AI_Answers import initialize_agents
 import View.objectsPrograms as obj
 import controller.sql_server as sql
@@ -12,17 +12,21 @@ class controllerTeacher():
               answers_ai = self.getAIAnswers(self.app.questions ,self.app.answers )
               print('answers_ai: \n\n')
               print(answers_ai)
-              self.enter_agents_answers_in_db(answers_ai ,self.app.answers)
+              answers_ai = self.teacher_edit_win(answers_ai)
+              self.enter_agents_answers_in_db(answers_ai ,self.app.questions)
               
-              #TODO a new window of show answers and opsion to edit them
-       def enter_agents_answers_in_db(self,answers_agent , answers_teacher):
+       def teacher_edit_win(self ,answers_ai ):
+            self.app_edit = window.TestAnswersWindow(answers_ai)
+            self.app_edit.mainloop()
+            return self.app_edit.answers
+       def enter_agents_answers_in_db(self,answers_agent , question_teacher):
             factory = obj.AnswerFactory_Agent()
             answers_to_db = []
-            for one_answer_teacher in answers_teacher:  
+            for question_teacher in question_teacher:  
                 for answer in answers_agent:
                      answer_obj = factory.createAnswer(answer
-                                                       ,one_answer_teacher.points 
-                                                       , one_answer_teacher.questionId )
+                                                       ,question_teacher.points 
+                                                       , question_teacher.id )
                      answers_to_db.append(answer_obj)
             self.sql_server.add_answers(answers_to_db)
             
