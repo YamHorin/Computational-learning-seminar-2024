@@ -36,7 +36,7 @@ class AnswerWindow(ctk.CTkToplevel):
         self.index = index
         self.answer = answer
         self.title("Answer Window")
-        self.geometry("800x600")  # Set a larger size for the answer window
+        self.geometry("800x800")  # Set a larger size for the answer window
 
         text_frame = ctk.CTkFrame(self)
         text_frame.pack(expand=True, fill='both', padx=20, pady=20)
@@ -71,7 +71,7 @@ class TestAnswersWindow(ctk.CTk):
         super().__init__(*args, **kwargs)
         self.answers = answers
         self.title("Test Answers")
-        self.geometry(f"{self.winfo_screenwidth()}x{self.winfo_screenheight()}")
+        self.geometry('800x800')
 
         self.answer_widgets = []
         self.create_widgets()

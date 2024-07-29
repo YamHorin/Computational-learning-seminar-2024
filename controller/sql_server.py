@@ -30,15 +30,15 @@ class sql_server:
 
         for answer in answers:
             data_answer = (answer.text, answer.createdBy, answer.questionId)
-            print(add_answer, data_answer)  # Print for debugging (optional)
 
             try:
                 self.cursor.execute(add_answer, data_answer)
             except MySQLError as e:
                 print(f"Error: {e}")
 
-            print("Inserted answer:")  # Print message after successful insert
-            answer.show()  # Call the show method to display the answer details
+            print("**Inserted answer:")  # Print message after successful insert
+            answer.show()
+            print("\n\n")  # Call the show method to display the answer details
         self.cnx.commit()
 
         

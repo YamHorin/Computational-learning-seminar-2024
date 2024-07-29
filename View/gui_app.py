@@ -39,7 +39,7 @@ class GUIApp(ctk.CTk):
         self.sidebar_button_1 = ctk.CTkButton(self.sidebar_frame, text="Button 1", command=self.sidebar_button_event)
         self.sidebar_button_1.grid(row=1, column=0, padx=20, pady=10)
         
-        self.sidebar_button_2 = ctk.CTkButton(self.sidebar_frame, text="Button 2", command=self.sidebar_button_event)
+        self.sidebar_button_2 = ctk.CTkButton(self.sidebar_frame, text="Button 2", command=self.sidebar_button_event2)
         self.sidebar_button_2.grid(row=2, column=0, padx=20, pady=10)
         
         self.sidebar_button_3 = ctk.CTkButton(self.sidebar_frame, text="Button 3", command=self.sidebar_button_event)
@@ -89,6 +89,12 @@ class GUIApp(ctk.CTk):
 
         self.done_button = ctk.CTkButton(self, text="Done", command=self.done_input, width=200, height=50)
         self.done_button.grid(row=4, column=3, padx=20, pady=10, sticky="w")
+    def sidebar_button_event2(self):
+        print("Sidebar button 2 clicked")
+        self.question_entry.insert('1.0',"What are the main differences between fiscal policy and monetary policy?")
+        self.answer_entry.insert('1.0','Fiscal Policy is managed by the government and involves changing tax rates and public spending to influence the economy. For example, lowering taxes and increasing government spending can stimulate economic growth.')
+        self.keywords_entry.insert('1.0' ,'competitive market , Advertising and Publicity , consumers')
+        self.points_question.insert('1.0' , '15')
 
     def sidebar_button_event(self):
         print("Sidebar button clicked")
