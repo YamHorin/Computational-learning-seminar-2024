@@ -13,13 +13,15 @@ Some system for checking (evaluating) grades of tests / exercises / closed/open 
 * Possibility of sharing an exam for students and receiving the results.
 
 ## tools that we use in the project 
+
 ##DOCKER
+
 </p>
 <div align="center">
  <img alt="docker" height="200px" src="https://pbs.twimg.com/card_img/1813758439010742272/v9FtXldC?format=jpg&name=4096x4096">
 </div>
-### Docker Installation
 
+### Docker Installation
 1. Visit the official [Docker website](https://www.docker.com/).
 2. Choose the appropriate Docker version for your operating system. For macOS or Linux, hover over the download button, and two options for installation will show up.
 3. Open the download link and run the installation on your computer.
