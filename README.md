@@ -11,10 +11,25 @@ Some system for checking (evaluating) grades of tests / exercises / closed/open 
 * Calculating the similarity between the answer of the examinee and the author of the test (use of AI features) and giving an estimated score for each question
 * Giving a score according to the similarity percentages obtained from the calculation.
 * Possibility of sharing an exam for students and receiving the results.
+## setup
+* after installing ollama and docker , do the following
+* build the docker image of auto gen:
+ ```bash
+docker build -f .devcontainer/Dockerfile -t autogen_base_img https://github.com/microsoft/autogen.git#main
+``` 
+* and run the setup file:
+ ```bash
+python3 setup.py
+```
+and finally run main.py
+
+ ```bash
+python3 main.py
+```
 
 ## tools that we use in the project 
 
-##DOCKER
+## DOCKER
 
 </p>
 <div align="center">
