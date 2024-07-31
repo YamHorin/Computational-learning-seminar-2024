@@ -20,7 +20,10 @@ def caculateSimilarityAnswersWithKeyWordStudentToAgent(AI_answer,student_answer 
 
     print("Cosine Similarity:", cosine_sim[0][0])
 
-    return (cosine_sim[0][0] *0.7 + counter_key_words*0.3)
+    if keyWords:
+        return cosine_sim[0][0] * 0.7 + counter_key_words * 0.3
+    else:
+        return cosine_sim[0][0]
 
     
 

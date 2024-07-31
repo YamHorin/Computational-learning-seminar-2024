@@ -9,27 +9,36 @@ class StudentModel:
 
     def grade_answers(self, student_answers):
         grades = []
-        print(*self.correct_answers)
-        count = 0
         for i, answer_student in enumerate(student_answers):
-            grade=0
-            sum = 0
+            total_sum = 0
+            count = 0  # Count matches for the current student answer
+            
             for answer_ai in self.correct_answers:
-                count+=1
-                # Calculate cosine similarity 
-                if (answer_ai.questionId == i):
-                    similarity = caculateSimilarityAnswersWithKeyWordStudentToAgent(self.correct_answers[i].text,
-                                                                                    answer_student
-                                                                                    , self.keywords[i])
-                    # Calculate actual grade
+                # Check if the questionId matches
+                if answer_ai.questionId == i:
+                    # Calculate cosine similarity 
+                    similarity = caculateSimilarityAnswersWithKeyWordStudentToAgent(
+                        answer_ai.text,  # Use .text if answer_ai has this attribute
+                        answer_student,
+                        self.keywords[i]
+                    )
+                    # Calculate grade based on similarity
                     if similarity < 0.8:
-                        sum += similarity * self.points[i]
-                    else: 
-                        sum += self.points[i]
-            grade = sum / count
+                        total_sum += similarity * self.points[i]
+                    else:
+                        total_sum += self.points[i]
+                    count += 1
+            
+            # Avoid division by zero if no matches were found
+            if count > 0:
+                grade = total_sum / count
+            else:
+                grade = 0  # or some default grade
+            
             grades.append(grade)
-        self.save_grades(grades)
         return grades
+    
+
     
     def final_grade(self, grades):
         return sum(grades)

@@ -102,12 +102,12 @@ class StudentGUI(ctk.CTk):
     def done_button(self):
         self.save_answer()
         print("STUDENT DONE")
-        grades = self.model.grade_answers(self.student_answers)
-        print("Grades:", grades)
-        self.model.save_grades(grades)
-        final_grade = self.model.final_grade(grades)
+        self.grades = self.model.grade_answers(self.student_answers)
+        print("Grades:", self.grades)
+        self.model.save_grades(self.grades)
+        self.final_grade = self.model.final_grade(self.grades)
         # Call the callback function to start the autogen agent
-        self.on_done_callback(grades, self.correct_answers, self.points, self.student_answers, final_grade)
+        #self.on_done_callback(grades, self.correct_answers, self.points, self.student_answers, final_grade)
         self.destroy()
 
     def update_timer(self):

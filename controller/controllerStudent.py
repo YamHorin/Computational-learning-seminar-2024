@@ -23,11 +23,12 @@ class ControllerStudent ():
         questions , keywords = self.sql_server.get_all_questions()
         points = [q.points for q in questions]
         model = StudentModel(correct_answers, keywords, points)
-        gui = StudentGUI(questions, model, self.on_done_callback, correct_answers, points)
-        gui.mainloop()
+        self.gui = StudentGUI(questions, model, self.on_done_callback, correct_answers, points)
+        self.gui.mainloop()
+        self.on_done_callback(self.gui.grades,correct_answers , points , self.gui.student_answers , self.gui.final_grade)
         #TODO save answers
 
-    def on_done_callback(grades, correct_answers, points, student_answers, final_grade):
+    def on_done_callback(self, grades, correct_answers, points, student_answers, final_grade):
         # Initialize the agent with correct answers and points
         # agent = KevinAgent(correct_answers, points)
         # initializer, manager, groupchat = agent.initialize_agents()
