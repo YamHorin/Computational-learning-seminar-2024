@@ -1,6 +1,7 @@
 import tkinter as tk
 import customtkinter as ctk
 from datetime import datetime, timedelta
+from tkinter import simpledialog, messagebox
 
 class StudentGUI(ctk.CTk):
     def __init__(self, questions, model, on_done_callback, correct_answers, points):
@@ -65,13 +66,39 @@ class StudentGUI(ctk.CTk):
         # Create timer label
         self.timer_label = ctk.CTkLabel(self, text="", font=ctk.CTkFont(size=18))
         self.timer_label.grid(row=3, column=1, columnspan=2, padx=10, pady=(10, 20))
+        
+        self.hello_button = ctk.CTkButton(self.sidebar_frame, text="Say Hello", command=self.say_hello)
+        self.hello_button.grid(row=4, column=0, padx=20, pady=(10, 20), sticky="ew")
 
         # Initialize timer
         self.start_time = datetime.now()
         self.update_timer()
 
         self.update_question_display()
+    def say_hello(self):
+        self.answer_entry.insert('1.0' , '''
+The primary factors that influence the demand for a good or service in a competitive market are:
 
+Price of the Good or Service: Generally, as the price of a good or service decreases, the quantity demanded increases, and vice versa (law of demand).
+
+Income of Consumers: As consumers' income increases, they are typically able to purchase more goods and services, shifting the demand curve to the right. Conversely, a decrease in income will usually decrease demand.
+
+Prices of Related Goods:
+    Substitutes: If the price of a substitute good rises, the demand for the good in question may increase.
+    Complements: If the price of a complementary good rises, the demand for the good in question may decrease.
+
+Consumer Preferences: Changes in tastes and preferences can increase or decrease demand. For example, if a good becomes fashionable, demand for it will increase.
+
+Expectations of Future Prices: If consumers expect prices to rise in the future, they may increase their current demand. Conversely, if they expect prices to fall, they might reduce current demand.
+
+Number of Buyers: An increase in the number of consumers can increase demand, while a decrease in the number of consumers can reduce demand.
+
+Seasonal Changes: Certain goods and services experience changes in demand due to seasonal factors.
+
+Advertising and Publicity: Effective advertising can increase demand by making more consumers aware of the good or service.
+
+''')
+        print ("done")
     def update_question_display(self):
         question = self.questions[self.current_question_index]
         points = self.model.points[self.current_question_index]
@@ -84,6 +111,18 @@ class StudentGUI(ctk.CTk):
             self.current_question_index += 1
             self.update_question_display()
             self.answer_entry.delete("1.0", tk.END)  # Clear previous answer
+        else:
+            self.pop_window_all_done()
+
+    def pop_window_all_done(self):
+        all_done_window = ctk.CTkToplevel(self)
+        all_done_window.title("All Done")
+        all_done_window.geometry("400x200")
+        
+        # Create and configure the label
+        done_label = ctk.CTkLabel(all_done_window, text="All done!", font=ctk.CTkFont(size=40, weight="bold"))
+        done_label.pack(expand=True, pady=20)
+
 
     def show_previous_question(self):
         self.save_answer()
@@ -248,5 +287,5 @@ class StudentGUI(ctk.CTk):
 #     "Who wrote 'Romeo and Juliet'?"
 # ]
 
-# app = StudentGUI(questions)
+# app = StudentGUI()
 # app.mainloop()
