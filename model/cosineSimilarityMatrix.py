@@ -8,7 +8,7 @@ def caculateSimilarityAnswersWithKeyWordStudentToAgent(AI_answer,student_answer 
     # Calculate cosine similarity
     cosine_sim = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:2])
 
-    print("Cosine Similarity:", cosine_sim[0][0])
+    ###print("Cosine Similarity:", cosine_sim[0][0])
     # Initialize counter for keywords
     counter_key_words = 0
     
@@ -18,7 +18,7 @@ def caculateSimilarityAnswersWithKeyWordStudentToAgent(AI_answer,student_answer 
         counter_key_words = sum(1 for word in ai_words if word in keyWords) / total_keywords
     
 
-    print("Cosine Similarity:", cosine_sim[0][0])
+    ###print("Cosine Similarity:", cosine_sim[0][0])
 
     if keyWords:
         return cosine_sim[0][0] * 0.7 + counter_key_words * 0.3

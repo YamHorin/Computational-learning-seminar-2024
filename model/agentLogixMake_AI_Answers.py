@@ -90,6 +90,11 @@ def initialize_agents(answers_teacher, key_words):
     def state_transition(last_speaker, groupchat):
         messages = groupchat.messages
         text = str(messages[-1]["content"])
+        iteration_count = len([m for m in messages if m['name'] == 'bob'])
+
+        if iteration_count >= 5:  # Set a maximum number of iterations
+            return initializer  # End the conversation after 5 iterations
+    
         if last_speaker is initializer:
             # init -> retrieve
             return bob
@@ -109,7 +114,7 @@ def initialize_agents(answers_teacher, key_words):
                     total_score += score * 100
             average = total_score / counter_total_answer
             #print(f"Average score: {average}")
-            if average <= 60:
+            if average <= 65:
                 return helper  # Request better answers from Bob
             else:
                 return initializer  # End conversation if answers are satisfactory
@@ -118,7 +123,7 @@ def initialize_agents(answers_teacher, key_words):
     groupchat = ag.GroupChat(
         agents=[initializer, bob, helper],
         messages=[],
-        max_round=13,
+        max_round=6,
         speaker_selection_method=state_transition,
     )
 

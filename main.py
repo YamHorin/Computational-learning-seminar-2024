@@ -14,7 +14,23 @@ pwd = maskpass.askpass(prompt="Password for sql account:", mask="#")
 controller=  cs.ControllerStudent(pwd)
 controller.start_student_interface()
 
+# questions = [
+#     "What year world war 2 started",
+#     "What is the capital of France?",
+#     "Who wrote 'Romeo and Juliet'?"
+# ]
 
+# # Example correct answers and keywords
+# correct_answers = [
+#     "World war 2 started in 1939",
+#     "The capital of France is Paris",
+#     "Shakespeare wrote 'Romeo and Juliet'"
+# ]
+
+# keywords = [
+#     ["1939"],
+#     ["Paris"],
+#     ["Shakespeare"]]
     
 # #MAIN TO RUN TEACHER SIDE
 # import View.gui_app as v

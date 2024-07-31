@@ -69,8 +69,8 @@ class sql_server:
         ''')
         self.cnx.commit()
         return num_ans , num_qu
+    
     def get_all_questions(self):
-
         self.cursor.execute("SELECT * FROM ai_answers.questions_tbl")
         questions = []
         list_of_list_of_key_words = []
@@ -84,7 +84,7 @@ class sql_server:
             keyWords_list = [item.strip() for item in key_words.split(',')]
             list_of_list_of_key_words.append(keyWords_list)
             
-            print(f"Question got from the DB: {questions_id}, {questions_text}, {points}, {key_words}, {created_at}")
+           ### print(f"Question got from the DB: {questions_id}, {questions_text}, {points}, {key_words}, {created_at}")
         
         self.cnx.commit()
         return questions, list_of_list_of_key_words
@@ -99,11 +99,22 @@ class sql_server:
             answer_id, answer_text, createdBy, question_id, created_at = row
             answer = objectsPrograms.Answer(answer_text, question_id, createdBy)
             ANSWERs.append(answer)
-            print('Got answer from DB:')
-            answer.show()
+            ###print('Got answer from DB:')
+           ### answer.show()
 
         return ANSWERs
 
+    def add_student_answer(self, answer_text, student_id, question_id, grade):
+        add_answer = '''INSERT INTO student_answers (answer_text, createdBy, question_id, grade) VALUES (%s, %s, %s, %s)'''
+        grade = float(grade) if grade is not None else None
+        data_answer = (answer_text, student_id, question_id, grade)
+
+        try:
+            self.cursor.execute(add_answer, data_answer)
+            self.cnx.commit()
+            print(f"Student answer for question {question_id} inserted successfully")
+        except MySQLError as e:
+            print(f"Error inserting student answer: {e}")
 
     def close_connection(self):
         self.cursor.close()

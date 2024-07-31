@@ -21,74 +21,66 @@ class GUIApp(ctk.CTk):
 
         # Making the window
         self.title("Autogen Agent Interaction")
-        self.geometry("1100x800")
-
-        # Configure grid layout (4x4)
+        self.geometry("900x600")  # Reduced size
+        # Configure grid layout
         self.grid_columnconfigure(1, weight=1)
-        self.grid_columnconfigure((2, 3), weight=0)
-        self.grid_rowconfigure((0, 1, 2, 3, 4), weight=1)
+        self.grid_rowconfigure(4, weight=1)
+        # # Configure grid layout (4x4)
+        # self.grid_columnconfigure(1, weight=1)
+        # self.grid_columnconfigure((2, 3), weight=0)
+        # self.grid_rowconfigure((0, 1, 2, 3, 4), weight=1)
 
-        # Create sidebar frame with widgets
-        self.sidebar_frame = ctk.CTkFrame(self, width=140, corner_radius=0)
-        self.sidebar_frame.grid(row=0, column=0, rowspan=5, sticky="nsew")
-        self.sidebar_frame.grid_rowconfigure(4, weight=1)
-        
-        self.logo_label = ctk.CTkLabel(self.sidebar_frame, text="Teacher Submit:", font=ctk.CTkFont(size=20, weight="bold"))
+       # Create sidebar frame
+        self.sidebar_frame = ctk.CTkFrame(self, width=180, corner_radius=0)
+        self.sidebar_frame.grid(row=0, column=0, rowspan=6, sticky="nsew")
+        self.sidebar_frame.grid_rowconfigure(8, weight=1)
+
+        self.logo_label = ctk.CTkLabel(self.sidebar_frame, text="Teacher Submit:", font=ctk.CTkFont(size=18, weight="bold"))
         self.logo_label.grid(row=0, column=0, padx=20, pady=(20, 10))
 
-        self.sidebar_button_1 = ctk.CTkButton(self.sidebar_frame, text="Button 1", command=self.sidebar_button_event)
-        self.sidebar_button_1.grid(row=1, column=0, padx=20, pady=10)
-        
-        self.sidebar_button_2 = ctk.CTkButton(self.sidebar_frame, text="Button 2", command=self.sidebar_button_event2)
-        self.sidebar_button_2.grid(row=2, column=0, padx=20, pady=10)
-        
-        self.sidebar_button_3 = ctk.CTkButton(self.sidebar_frame, text="Button 3", command=self.sidebar_button_event)
-        self.sidebar_button_3.grid(row=3, column=0, padx=20, pady=10)
+        buttons = ["Button 1", "Button 2", "Button 3"]
+        for i, text in enumerate(buttons, start=1):
+            btn = ctk.CTkButton(self.sidebar_frame, text=text)
+            btn.grid(row=i, column=0, padx=20, pady=10)
 
         self.appearance_mode_label = ctk.CTkLabel(self.sidebar_frame, text="Appearance Mode:", anchor="w")
-        self.appearance_mode_label.grid(row=5, column=0, padx=20, pady=(10, 0))
-        
+        self.appearance_mode_label.grid(row=4, column=0, padx=20, pady=(10, 0))
         self.appearance_mode_optionemenu = ctk.CTkOptionMenu(self.sidebar_frame, values=["Light", "Dark", "System"],
                                                              command=self.change_appearance_mode_event)
-        self.appearance_mode_optionemenu.grid(row=6, column=0, padx=20, pady=(10, 10))
+        self.appearance_mode_optionemenu.grid(row=5, column=0, padx=20, pady=(10, 10))
 
         self.scaling_label = ctk.CTkLabel(self.sidebar_frame, text="UI Scaling:", anchor="w")
-        self.scaling_label.grid(row=7, column=0, padx=20, pady=(10, 0))
-        
-        self.scaling_optionemenu = ctk.CTkOptionMenu(self.sidebar_frame, values=["80%", "90%", "100%", "110%", "120%", "130%", "140%", "150%"],
+        self.scaling_label.grid(row=6, column=0, padx=20, pady=(10, 0))
+        self.scaling_optionemenu = ctk.CTkOptionMenu(self.sidebar_frame, values=["80%", "90%", "100%", "110%", "120%"],
                                                      command=self.change_scaling_event)
-        self.scaling_optionemenu.grid(row=8, column=0, padx=20, pady=(10, 20))
+        self.scaling_optionemenu.grid(row=7, column=0, padx=20, pady=(10, 20))
+
+        self.done_button = ctk.CTkButton(self.sidebar_frame, text="Done", command=self.done_input, width=140, height=35)
+        self.done_button.grid(row=9, column=0, padx=20, pady=(10, 20), sticky="s")
 
         # Create main content widgets
-        self.question_label = ctk.CTkLabel(self, text="Question:", font=ctk.CTkFont(size=20, weight="bold"))
-        self.question_label.grid(row=0, column=1, padx=10, pady=(20, 5), sticky="w")
-        
-        self.question_entry = ctk.CTkTextbox(self, width=600, height=150)
-        self.question_entry.grid(row=0, column=1, columnspan=3, padx=10, pady=(5, 10))
+        labels = ["Question:", "Answer:", "Keywords:", "Points:"]
+        self.entries = {}
+        for i, label in enumerate(labels):
+            lbl = ctk.CTkLabel(self, text=label, anchor="w", font=ctk.CTkFont(size=14, weight="bold"))
+            lbl.grid(row=i*2, column=1, padx=(20, 10), pady=(10, 0), sticky="w")
+            entry = ctk.CTkTextbox(self, height=80 if i < 2 else 40)
+            entry.grid(row=i*2+1, column=1, padx=(20, 10), pady=(5, 10), sticky="ew")
+            self.entries[label.lower().rstrip(':')] = entry
 
-        self.answer_label = ctk.CTkLabel(self, text="Answer:", font=ctk.CTkFont(size=20, weight="bold"))
-        self.answer_label.grid(row=1, column=1, padx=10, pady=(10, 5), sticky="w")
-        
-        self.answer_entry = ctk.CTkTextbox(self, width=600, height=150)
-        self.answer_entry.grid(row=1, column=1, columnspan=3, padx=10, pady=(5, 10))
+        # Submit button at bottom right
+        self.submit_button = ctk.CTkButton(self, text="Submit", command=self.submit_question, width=160, height=35)
+        self.submit_button.grid(row=8, column=1, padx=(20, 20), pady=(20, 20), sticky="se")
 
-        self.keywords_label = ctk.CTkLabel(self, text="Keywords:", font=ctk.CTkFont(size=20, weight="bold"))
-        self.keywords_label.grid(row=2, column=1, padx=10, pady=(10, 5), sticky="w")
-        
-        self.keywords_entry = ctk.CTkTextbox(self, width=600, height=100)
-        self.keywords_entry.grid(row=2, column=1, columnspan=3, padx=10, pady=(5, 10))
 
-        self.points_label = ctk.CTkLabel(self, text="Points:", font=ctk.CTkFont(size=20, weight="bold"))
-        self.points_label.grid(row=3, column=1, padx=10, pady=(10, 5), sticky="w")
-        
-        self.points_question = ctk.CTkTextbox(self, width=600, height=100)
-        self.points_question.grid(row=3, column=1, columnspan=3, padx=10, pady=(5, 10))
+        # self.submit_button = ctk.CTkButton(self, text="Submit", command=self.submit_question, width=200, height=50)
+        # self.submit_button.grid(row=2, column=1, padx=10, pady=5, sticky="e")
+        # self.submit_button = ctk.CTkButton(self, text="Submit", command=self.submit_question)
+        # self.submit_button.grid(row=5, column=5, padx=10, pady=10, sticky="sw")
 
-        self.submit_button = ctk.CTkButton(self, text="Submit", command=self.submit_question, width=200, height=50)
-        self.submit_button.grid(row=4, column=2, padx=20, pady=10, sticky="e")
-
-        self.done_button = ctk.CTkButton(self, text="Done", command=self.done_input, width=200, height=50)
-        self.done_button.grid(row=4, column=3, padx=20, pady=10, sticky="w")
+        # self.done_button = ctk.CTkButton(self, text="Done", command=self.done_input, width=200, height=50)
+        # self.done_button.grid(row=9, column=0, padx=20, pady=(10, 20), sticky="w")
+    
     def sidebar_button_event2(self):
         print("Sidebar button 2 clicked")
         self.question_entry.insert('1.0',"What are the main differences between fiscal policy and monetary policy?")
@@ -122,15 +114,16 @@ Advertising and Publicity: Effective advertising can increase demand by making m
         self.keywords_entry.insert('1.0' ,'competitive market , Advertising and Publicity , consumers')
         self.points_question.insert('1.0' , '15')
 
-    def change_appearance_mode_event(self, new_mode):
-        ctk.set_appearance_mode(new_mode)
+    # def change_appearance_mode_event(self, new_mode):
+    #     ctk.set_appearance_mode(new_mode)
+    def change_appearance_mode_event(self, new_appearance_mode: str):
+        ctk.set_appearance_mode(new_appearance_mode)
+    # def change_scaling_event(self, new_scale):
+    #     ctk.set_widget_scaling(float(new_scale[:-1]) / 100)
 
-    def change_scaling_event(self, new_scale):
-        ctk.set_widget_scaling(float(new_scale[:-1]) / 100)
-
-
-
-   
+    # def change_scaling_event(self, new_scaling: str):
+    #     new_scaling_float = int(new_scaling.replace("%", "")) / 100
+    #     ctk.set_widget_scaling(new_scaling_float)  
 
     def change_appearance_mode_event(self, new_appearance_mode: str):
         ctk.set_appearance_mode(new_appearance_mode)
@@ -150,61 +143,90 @@ Advertising and Publicity: Effective advertising can increase demand by making m
         self.after_ids.clear()
 
     
-    
     def submit_question(self):
-        # Retrieve input values
-        question_text = self.question_entry.get("1.0", "end-1c")
-        keywords = self.keywords_entry.get("1.0", "end-1c")
-        points = self.points_question.get("1.0", "end-1c")
-        answers_text = self.answer_entry.get("1.0", "end-1c")
-
-        # Create a question object using the factory
+        question_text = self.entries['question'].get("1.0", "end-1c")
+        keywords = self.entries['keywords'].get("1.0", "end-1c")
+        points = self.entries['points'].get("1.0", "end-1c")
+        answers_text = self.entries['answer'].get("1.0", "end-1c")
+        
         question = self.factory_questions.createQuestion(
             question_text=question_text,
             points=points,
             keyWords=keywords,
             id_answer_teacher=None,
             answerFromTeacher=answers_text,
-            test_id=1  # Example test_id, this should be dynamically set.
+            test_id=1
         )
 
-        # Create an answer object using the factory
         answer = self.factory_answer_teacher.createAnswer(
             answers_text=answers_text,
             answer_points=points,
             id_question=question.id
         )
 
-        # Append the created objects to the lists
         self.questions.append(question)
         self.answers.append(answer)
         self.key_words.append(keywords)
         
-        # Display the created question and answer (example: printing for now)
-        print("Question:", question_text)
-        print("Answer:", answers_text)
-        print("Keywords:", keywords)
-        print("Points:", points)
+        for entry in self.entries.values():
+            entry.delete("1.0", "end")
 
-        # Clear the input fields after submission
-        self.question_entry.delete("1.0", "end")
-        self.answer_entry.delete("1.0", "end")
-        self.keywords_entry.delete("1.0", "end")
-        self.points_question.delete("1.0", "end")
+    # def submit_question(self):
+    #     # Retrieve input values
+    #     question_text = self.question_entry.get("1.0", "end-1c")
+    #     keywords = self.keywords_entry.get("1.0", "end-1c")
+    #     points = self.points_question.get("1.0", "end-1c")
+    #     answers_text = self.answer_entry.get("1.0", "end-1c")
 
-    def done_input(self):
+    #     # Create a question object using the factory
+    #     question = self.factory_questions.createQuestion(
+    #         question_text=question_text,
+    #         points=points,
+    #         keyWords=keywords,
+    #         id_answer_teacher=None,
+    #         answerFromTeacher=answers_text,
+    #         test_id=1  # Example test_id, this should be dynamically set.
+    #     )
 
+    #     # Create an answer object using the factory
+    #     answer = self.factory_answer_teacher.createAnswer(
+    #         answers_text=answers_text,
+    #         answer_points=points,
+    #         id_question=question.id
+    #     )
+
+    #     # Append the created objects to the lists
+    #     self.questions.append(question)
+    #     self.answers.append(answer)
+    #     self.key_words.append(keywords)
         
+    #     # Display the created question and answer (example: printing for now)
+    #     print("Question:", question_text)
+    #     print("Answer:", answers_text)
+    #     print("Keywords:", keywords)
+    #     print("Points:", points)
 
-        # Clearing questions and answers lists after chat
-        self.question_entry.delete("1.0", "end")
-        self.answer_entry.delete("1.0", "end")
-        self.keywords_entry.delete("1.0", "end")
-        self.points_question.delete("1.0", "end")
-
+    #     # Clear the input fields after submission
+    #     self.question_entry.delete("1.0", "end")
+    #     self.answer_entry.delete("1.0", "end")
+    #     self.keywords_entry.delete("1.0", "end")
+    #     self.points_question.delete("1.0", "end")
+    def done_input(self):
+        for entry in self.entries.values():
+            entry.delete("1.0", "end")
         self.cancel_after_callbacks()
-        # Create a new window to display the answers (example: printing for now)
         self.destroy()
+
+    # def done_input(self):
+    #     # Clearing questions and answers lists after chat
+    #     self.question_entry.delete("1.0", "end")
+    #     self.answer_entry.delete("1.0", "end")
+    #     self.keywords_entry.delete("1.0", "end")
+    #     self.points_question.delete("1.0", "end")
+
+    #     self.cancel_after_callbacks()
+    #     # Create a new window to display the answers (example: printing for now)
+    #     self.destroy()
 
 # app = GUIApp(0,0)
 # app.mainloop()

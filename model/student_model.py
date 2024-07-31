@@ -6,7 +6,6 @@ class StudentModel:
         #TODO make a list of point of every question 
         self.points = points  # Points for each question
 
-
     def grade_answers(self, student_answers):
         grades = []
         for i, answer_student in enumerate(student_answers):
@@ -15,15 +14,15 @@ class StudentModel:
             
             for answer_ai in self.correct_answers:
                 # Check if the questionId matches
-                if answer_ai.questionId == i:
+                if answer_ai.questionId == i+1:
                     # Calculate cosine similarity 
                     similarity = caculateSimilarityAnswersWithKeyWordStudentToAgent(
                         answer_ai.text,  # Use .text if answer_ai has this attribute
                         answer_student,
                         self.keywords[i]
                     )
-                    similarity = similarity *100
-                    print(f'***similarity = {similarity}')
+                    ######### similarity = similarity *100
+                    # print(f'***similarity = {similarity}')
                     # Calculate grade based on similarity
                     if similarity < 0.8:
                         total_sum += similarity * self.points[i]

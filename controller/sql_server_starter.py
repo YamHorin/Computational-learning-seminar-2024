@@ -40,6 +40,8 @@ def database_initialization(pwd):
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
         ''')
+        # Call the function to create student_answers table
+        create_student_answers_table(pwd)
         
         cnx.commit()
     
@@ -55,8 +57,35 @@ def database_initialization(pwd):
         if cursor:
             cursor.close()
         if cnx:
-            cnx.close()            
-                 
+            cnx.close()   
+
+def create_student_answers_table(pwd):
+    try:
+        cnx = mysql.connector.connect(user='root', password=pwd, database='ai_answers')
+        cursor = cnx.cursor()
+        
+        cursor.execute('''
+        CREATE TABLE IF NOT EXISTS student_answers (
+            answer_id INT AUTO_INCREMENT PRIMARY KEY,
+            answer_text VARCHAR(2000) NOT NULL,
+            createdBy VARCHAR(2000),
+            question_id INT NOT NULL,
+            grade FLOAT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+        ''')
+        
+        cnx.commit()
+        print("student_answers table created successfully")
+    
+    except mysql.connector.Error as err:
+        print(f"Error creating student_answers table: {err}")
+    finally:
+        if cursor:
+            cursor.close()
+        if cnx:
+            cnx.close()
+
 def get_last_number_question_and_answer(pwd):
   
   try:

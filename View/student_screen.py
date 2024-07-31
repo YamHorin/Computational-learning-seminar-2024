@@ -17,7 +17,7 @@ class StudentGUI(ctk.CTk):
         self.points = points
         
         self.title("Student Test Interface")
-        self.geometry("1100x1100")
+        self.geometry("800x600")
         
         # Configure grid layout (4x4)
         self.grid_columnconfigure(1, weight=1)
@@ -45,27 +45,27 @@ class StudentGUI(ctk.CTk):
 
         # Create the question display label with points
         self.question_label = ctk.CTkLabel(self, text="", font=ctk.CTkFont(size=20, weight="bold"), wraplength=800)
-        self.question_label.grid(row=0, column=1, columnspan=2, padx=10, pady=(20, 5), sticky="w")
+        self.question_label.grid(row=0, column=1, columnspan=2, padx=10, pady=(10, 5), sticky="w")
 
         # Create answer entry
         self.answer_label = ctk.CTkLabel(self, text="Answer:", font=ctk.CTkFont(size=20, weight="bold"))
-        self.answer_label.grid(row=1, column=1, padx=10, pady=(10, 5), sticky="w")
-        self.answer_entry = ctk.CTkTextbox(self, width=400, height=200)
-        self.answer_entry.grid(row=1, column=1, columnspan=2, padx=10, pady=(5, 10))
+        self.answer_label.grid(row=1, column=1, padx=10, pady=(5, 2), sticky="w")
+        self.answer_entry = ctk.CTkTextbox(self, width=300, height=150)
+        self.answer_entry.grid(row=1, column=1, columnspan=2, padx=10, pady=(2, 5))
 
         # Create buttons for navigation
         self.back_button = ctk.CTkButton(self, text="Back", command=self.show_previous_question)
-        self.back_button.grid(row=2, column=1, padx=20, pady=10, sticky="e")
+        self.back_button.grid(row=2, column=1, padx=10, pady=5, sticky="e")
 
         self.continue_button = ctk.CTkButton(self, text="Continue", command=self.show_next_question)
-        self.continue_button.grid(row=2, column=2, padx=20, pady=10, sticky="w")
+        self.continue_button.grid(row=2, column=2, padx=10, pady=5, sticky="w")
         
         self.done_button = ctk.CTkButton(self.sidebar_frame, text="DONE", command=self.done_button)
         self.done_button.grid(row=9, column=0, padx=20, pady=(10, 20), sticky="ew")
 
         # Create timer label
         self.timer_label = ctk.CTkLabel(self, text="", font=ctk.CTkFont(size=18))
-        self.timer_label.grid(row=3, column=1, columnspan=2, padx=10, pady=(10, 20))
+        self.timer_label.grid(row=3, column=1, columnspan=2, padx=10, pady=(5, 10))
         
         self.hello_button = ctk.CTkButton(self.sidebar_frame, text="Say Hello", command=self.say_hello)
         self.hello_button.grid(row=4, column=0, padx=20, pady=(10, 20), sticky="ew")
@@ -75,6 +75,7 @@ class StudentGUI(ctk.CTk):
         self.update_timer()
 
         self.update_question_display()
+
     def say_hello(self):
         self.answer_entry.insert('1.0' , '''
 The primary factors that influence the demand for a good or service in a competitive market are:
@@ -140,10 +141,8 @@ Advertising and Publicity: Effective advertising can increase demand by making m
 
     def done_button(self):
         self.save_answer()
-        print("STUDENT DONE")
         self.grades = self.model.grade_answers(self.student_answers)
-        print("Grades:", self.grades)
-        self.model.save_grades(self.grades)
+        # self.model.save_grades(self.grades)
         self.final_grade = self.model.final_grade(self.grades)
         # Call the callback function to start the autogen agent
         #self.on_done_callback(grades, self.correct_answers, self.points, self.student_answers, final_grade)
