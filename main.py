@@ -8,66 +8,12 @@ import maskpass
 import subprocess
 # RUN STUDENT SIDE
 # Example data for testing
-questions = [
-    "What year world war 2 started",
-    "What is the capital of France?",
-    "Who wrote 'Romeo and Juliet'?"
-]
 
-# Example correct answers and keywords
-correct_answers = [
-    "World war 2 started in 1939",
-    "The capital of France is Paris",
-    "Shakespeare wrote 'Romeo and Juliet'"
-]
-
-keywords = [
-    ["1939"],
-    ["Paris"],
-    ["Shakespeare"]
-]
-
-# Points for each question
-points = [3, 5, 10]
-student_answers = [
-    "The sky is blue",
-    "The capital is Paris",
-    "Shakespeare"
-]
 
 pwd = maskpass.askpass(prompt="Password for sql account:", mask="#")
 controller=  cs.ControllerStudent(pwd)
-controller.start_student_interface(questions, correct_answers, keywords, points)
+controller.start_student_interface()
 
-
-
-model = sm(correct_answers, keywords, points)
-grades = model.grade_answers(student_answers)
-
-agent = KevinAgent(correct_answers, points)
-initializer, manager, groupchat = agent.initialize_agents()
-
-# Start the conversation by sending a message to the group chat
-initial_message = "Provide feedback based on the following grades: " + str(grades)
-chat_result = initializer.initiate_chat(manager, message=initial_message)
-
-final_grade = model.final_grade(grades)
-print(f"Final test grade: {final_grade}")
-
-print("Final response:", chat_result)
-
-# # Process the conversation
-# while groupchat.messages:
-#     manager.step()
-
-# # Retrieve and print feedback
-# # Assuming the feedback is in the last message
-# feedback_message = groupchat.messages[-1]['content']
-# feedback = agent.generate_feedback(feedback_message)
-    
-# # Print or handle the feedback as needed
-# print("Feedback from Agent:")
-# print(feedback)
 
     
 # #MAIN TO RUN TEACHER SIDE
