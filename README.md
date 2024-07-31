@@ -4,8 +4,7 @@
 System name: Checkly
 
 Some system for checking (evaluating) grades of tests / exercises / closed/open questions - automatically.
-
-* The 5 important requirements for the project, what people expect the system to do
+### The 5 important requirements for the project, what people expect the system to do
 * Entering questions by the author of the test and collecting correct answers to the questions.
 * Preparation of a bank of answers similar to the answers entered by the author of the test / keywords for identification used in the answer.
 * Calculating the similarity between the answer of the examinee and the author of the test (use of AI features) and giving an estimated score for each question
