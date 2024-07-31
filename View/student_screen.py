@@ -5,7 +5,9 @@ from datetime import datetime, timedelta
 class StudentGUI(ctk.CTk):
     def __init__(self, questions, model, on_done_callback, correct_answers, points):
         super().__init__()
-        self.questions = questions
+        self.questions = []
+        for q in questions:
+            self.questions.append(q.text)
         self.model = model
         self.student_answers = []
         self.current_question_index = 0

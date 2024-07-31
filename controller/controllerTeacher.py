@@ -14,7 +14,7 @@ class controllerTeacher():
               print(answers_ai)
               answers_ai = self.teacher_edit_win(answers_ai)
               self.enter_agents_answers_in_db(answers_ai ,self.app.questions)
-              
+              self.sql_server.close_connection()
        def teacher_edit_win(self ,answers_ai ):
             self.app_edit = window.TestAnswersWindow(answers_ai)
             self.app_edit.mainloop()

@@ -3,6 +3,7 @@
 #pip install pymysql mysql-connector-python
 
 import mysql.connector
+from View import objectsPrograms
 from mysql.connector import errorcode
 from pymysql import MySQLError
 class sql_server:
@@ -44,10 +45,9 @@ class sql_server:
         
 
     def add_questions(self,questions):
-        add_question = '''INSERT INTO questions_tbl (questions_id, questions_text, points) VALUES (%s, %s, %s)'''
+        add_question = '''INSERT INTO questions_tbl (questions_id, questions_text, points , key_words) VALUES (%s, %s, %s ,%s)'''
         for qu in questions:
-            data_question = (qu.id , qu.text , qu.points )
-            print (data_question)
+            data_question = (qu.id , qu.text , qu.points ,qu.keyWords )
             try:
                 self.cursor.execute(add_question,data_question)
             except MySQLError as e:
@@ -69,6 +69,42 @@ class sql_server:
         ''')
         self.cnx.commit()
         return num_ans , num_qu
+    def get_all_questions(self):
+
+        self.cursor.execute("SELECT * FROM ai_answers.questions_tbl")
+        questions = []
+        list_of_list_of_key_words = []
+        factory_questions = objectsPrograms.QuestionFactory(0)
+        
+        for row in self.cursor.fetchall():
+            questions_id, questions_text, points, key_words, created_at = row
+            question = factory_questions.createQuestionFromDB(questions_id, questions_text, points, key_words)
+            questions.append(question)
+            
+            keyWords_list = [item.strip() for item in key_words.split(',')]
+            list_of_list_of_key_words.append(keyWords_list)
+            
+            print(f"Question got from the DB: {questions_id}, {questions_text}, {points}, {key_words}, {created_at}")
+        
+        self.cnx.commit()
+        return questions, list_of_list_of_key_words
+
+    
+    def get_all_answers(self):
+        self.cursor.execute("SELECT * FROM ai_answers.answers_tbl")
+
+        ANSWERs = []
+        rows = self.cursor.fetchall()  # Fetch all rows from the executed query
+        for row in rows:
+            answer_id, answer_text, createdBy, question_id, created_at = row
+            answer = objectsPrograms.Answer(answer_text, question_id, createdBy)
+            ANSWERs.append(answer)
+            print('Got answer from DB:')
+            answer.show()
+
+        return ANSWERs
+
+
     def close_connection(self):
         self.cursor.close()
         self.cnx.close()        

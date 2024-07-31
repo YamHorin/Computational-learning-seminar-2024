@@ -26,6 +26,7 @@ def database_initialization(pwd):
             questions_id INT PRIMARY KEY,
             questions_text VARCHAR(2000) NOT NULL,
             points INT,
+            key_words VARCHAR(2000) NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP    
         );
         ''')

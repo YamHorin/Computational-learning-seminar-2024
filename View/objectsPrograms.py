@@ -12,7 +12,6 @@ class Answer():
         {self.createdBy} = creadedBy
         ''')
 
-
 class AnswerFactory_teacher():
     def createAnswer(self , answers_text, answer_points, id_question):
         return Answer(answers_text, id_question , "teacher")
@@ -57,4 +56,11 @@ class QuestionFactory():
                         id_answer_teacher ,
                         answerFromTeacher ,
                         test_id)
-    
+    def createQuestionFromDB(self, question_id , question_text, points,  keyWords):
+        return Question(question_id, 
+                question_text, 
+                points,  
+                keyWords,
+                None ,
+                None ,
+               None)
