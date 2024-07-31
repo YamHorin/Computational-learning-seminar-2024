@@ -1,20 +1,52 @@
 # Computational learning seminar project 2024 
-## readme not done 
+### readme not done 
 
 System name: Checkly
 
 Some system for checking (evaluating) grades of tests / exercises / closed/open questions - automatically.
-
-* The 5 important requirements for the project, what people expect the system to do
+### The 5 important requirements for the project, what people expect the system to do
 * Entering questions by the author of the test and collecting correct answers to the questions.
 * Preparation of a bank of answers similar to the answers entered by the author of the test / keywords for identification used in the answer.
 * Calculating the similarity between the answer of the examinee and the author of the test (use of AI features) and giving an estimated score for each question
 * Giving a score according to the similarity percentages obtained from the calculation.
 * Possibility of sharing an exam for students and receiving the results.
+## setup
+* after installing ollama and docker , do the following
+* build the docker image of auto gen:
+ ```bash
+docker build -f .devcontainer/Dockerfile -t autogen_base_img https://github.com/microsoft/autogen.git#main
+``` 
+* and run the setup file:
+ ```bash
+python3 setup.py
+```
+and finally run main.py
 
-## tools that we use in the project 
+ ```bash
+python3 main.py
+```
+
+## tools that we use in the project AND NEEDED TO BE INSTALLED IN ORDER TO RUN  
+
+## DOCKER
+
+</p>
+<div align="center">
+ <img alt="docker" height="200px" src="https://pbs.twimg.com/card_img/1813758439010742272/v9FtXldC?format=jpg&name=4096x4096">
+</div>
+
+### Docker Installation
+1. Visit the official [Docker website](https://www.docker.com/).
+2. Choose the appropriate Docker version for your operating system. For macOS or Linux, hover over the download button, and two options for installation will show up.
+3. Open the download link and run the installation on your computer.
+4. Once the installation is complete, Docker should be ready to use.
+5. Before running the server of the program, make sure Docker is running on your computer.
+
 ## Auto gen 
-
+</p>
+<div align="center">
+ <img alt="autogen" height="200px" src="https://microsoft.github.io/autogen/img/ag.svg">
+</div>
 * Input - instructions to agents.
 * The first agent will receive the exam questions, the second will create a bank of correct answers, the third will check the correctness of the answers compared to the answers entered by the test author and check the correctness of the students' answers compared to the answer bank
 * Output - a bank of correct answers for the exam and the students' grades.
@@ -28,7 +60,7 @@ AutoGen is an open-source programming framework for building AI agents and facil
 
 The project is currently maintained by a [dynamic group of volunteers](https://butternut-swordtail-8a5.notion.site/410675be605442d3ada9a42eb4dfef30?v=fa5d0a79fd3d4c0f9c112951b2831cbb&pvs=4) from several different organizations. Contact project administrators Chi Wang and Qingyun Wu via auto-gen@outlook.com if you are interested in becoming a maintainer.
 
-## Quickstart
+### Quickstart
 The easiest way to start playing is
 1. Click below to use the GitHub Codespace
 
@@ -77,12 +109,14 @@ For LLM inference configurations, check the [FAQs](https://microsoft.github.io/a
   <a href="#readme-top" style="text-decoration: none; color: blue; font-weight: bold;">
     ↑ Back to Top ↑
   </a>
+
+## Ollama
 </p>
 <div align="center">
  <img alt="ollama" height="200px" src="https://github.com/ollama/ollama/assets/3325447/0d0b44e2-8f4a-4e99-9b52-a5c1c741c8f7">
 </div>
-
-## Ollama
+* the autogen needs a language model that he can work on, we chose llama 3.
+* to install ollama:
 
 [![Discord](https://dcbadge.vercel.app/api/server/ollama?style=flat&compact=true)](https://discord.gg/ollama)
 
@@ -104,11 +138,35 @@ curl -fsSL https://ollama.com/install.sh | sh
 
 [Manual install instructions](https://github.com/ollama/ollama/blob/main/docs/linux.md)
 
-### Docker
 
-The official [Ollama Docker image](https://hub.docker.com/r/ollama/ollama) `ollama/ollama` is available on Docker Hub.
 
-### Libraries
+* after installation pull the llama 3 model in the command line:
+```bash
+ollama pull llama 3
+```
 
-- [ollama-python](https://github.com/ollama/ollama-python)
-- [ollama-js](https://github.com/ollama/ollama-js)
+## MYSQL
+
+</p>
+<div align="center">
+ <img alt="my sql" height="200px" src="https://pbs.twimg.com/profile_images/1255113654049128448/J5Yt92WW_400x400.png">
+</div>
+
+* the program use database of my sql
+### how to install mysql:
+### macOS
+
+[Download](https://dev.mysql.com/doc/refman/8.4/en/macos-installation.html)
+
+### Windows system
+
+[Download](https://dev.mysql.com/downloads/installer/)
+
+### Linux
+
+```
+mysql -u username -p
+```
+
+[Manual install instructions](https://dev.mysql.com/doc/refman/8.4/en/linux-installation.html)
+
