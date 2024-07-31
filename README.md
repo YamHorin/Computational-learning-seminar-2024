@@ -138,12 +138,35 @@ curl -fsSL https://ollama.com/install.sh | sh
 
 [Manual install instructions](https://github.com/ollama/ollama/blob/main/docs/linux.md)
 
-### Docker
 
-The official [Ollama Docker image](https://hub.docker.com/r/ollama/ollama) `ollama/ollama` is available on Docker Hub.
 
 * after installation pull the llama 3 model in the command line:
 ```bash
 ollama pull llama 3
 ```
+
+## MYSQL
+
+</p>
+<div align="center">
+ <img alt="my sql" height="200px" src="https://pbs.twimg.com/profile_images/1255113654049128448/J5Yt92WW_400x400.png">
+</div>
+
+* the program use database of my sql
+### how to install mysql:
+### macOS
+
+[Download](https://dev.mysql.com/doc/refman/8.4/en/macos-installation.html)
+
+### Windows system
+
+[Download](https://dev.mysql.com/downloads/installer/)
+
+### Linux
+
+```
+mysql -u username -p
+```
+
+[Manual install instructions](https://dev.mysql.com/doc/refman/8.4/en/linux-installation.html)
 
