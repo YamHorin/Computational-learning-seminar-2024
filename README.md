@@ -1,5 +1,5 @@
 # Computational learning seminar project 2024 
-## readme not done 
+### readme not done 
 
 System name: Checkly
 
@@ -27,7 +27,7 @@ and finally run main.py
 python3 main.py
 ```
 
-## tools that we use in the project 
+## tools that we use in the project AND NEEDED TO BE INSTALLED IN ORDER TO RUN  
 
 ## DOCKER
 
@@ -116,8 +116,8 @@ For LLM inference configurations, check the [FAQs](https://microsoft.github.io/a
 <div align="center">
  <img alt="ollama" height="200px" src="https://github.com/ollama/ollama/assets/3325447/0d0b44e2-8f4a-4e99-9b52-a5c1c741c8f7">
 </div>
-the autogen needs ש language model that he can work on, we chose llama 3.
-to install ollama:
+* the autogen needs a language model that he can work on, we chose llama 3.
+* to install ollama:
 
 [![Discord](https://dcbadge.vercel.app/api/server/ollama?style=flat&compact=true)](https://discord.gg/ollama)
 
@@ -142,4 +142,9 @@ curl -fsSL https://ollama.com/install.sh | sh
 ### Docker
 
 The official [Ollama Docker image](https://hub.docker.com/r/ollama/ollama) `ollama/ollama` is available on Docker Hub.
+
+* after installation pull the llama 3 model in the command line:
+```bash
+ollama pull llama 3
+```
 
