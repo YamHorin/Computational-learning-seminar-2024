@@ -40,7 +40,12 @@ class GUIApp(ctk.CTk):
 
         buttons = ["Button 1", "Button 2", "Button 3"]
         for i, text in enumerate(buttons, start=1):
-            btn = ctk.CTkButton(self.sidebar_frame, text=text)
+            if i==1:
+                btn = ctk.CTkButton(self.sidebar_frame, text=text , command=self.sidebar_button_event)
+            if i==2:
+                btn = ctk.CTkButton(self.sidebar_frame, text=text , command=self.sidebar_button_event2)
+            if i==3:
+                btn = ctk.CTkButton(self.sidebar_frame, text=text )
             btn.grid(row=i, column=0, padx=20, pady=10)
 
         self.appearance_mode_label = ctk.CTkLabel(self.sidebar_frame, text="Appearance Mode:", anchor="w")
@@ -83,15 +88,15 @@ class GUIApp(ctk.CTk):
     
     def sidebar_button_event2(self):
         print("Sidebar button 2 clicked")
-        self.question_entry.insert('1.0',"What are the main differences between fiscal policy and monetary policy?")
-        self.answer_entry.insert('1.0','Fiscal Policy is managed by the government and involves changing tax rates and public spending to influence the economy. For example, lowering taxes and increasing government spending can stimulate economic growth.')
-        self.keywords_entry.insert('1.0' ,'competitive market , Advertising and Publicity , consumers')
-        self.points_question.insert('1.0' , '15')
+        self.entries['question'].insert('1.0',"What are the main differences between fiscal policy and monetary policy?")
+        self.entries['answer'].insert('1.0','Fiscal Policy is managed by the government and involves changing tax rates and public spending to influence the economy. For example, lowering taxes and increasing government spending can stimulate economic growth.')
+        self.entries['keywords'].insert('1.0' ,'competitive market , Advertising and Publicity , consumers')
+        self.entries['points'].insert('1.0' , '15')
 
     def sidebar_button_event(self):
         print("Sidebar button clicked")
-        self.question_entry.insert('1.0',"What are the primary factors that influence the demand for a good or service in a competitive market?")
-        self.answer_entry.insert('1.0','''The primary factors that influence the demand for a good or service in a competitive market are:
+        self.entries['question'].insert('1.0',"What are the primary factors that influence the demand for a good or service in a competitive market?")
+        self.entries['answer'].insert('1.0','''The primary factors that influence the demand for a good or service in a competitive market are:
 
 Price of the Good or Service: Generally, as the price of a good or service decreases, the quantity demanded increases, and vice versa (law of demand).
 
@@ -111,8 +116,8 @@ Seasonal Changes: Certain goods and services experience changes in demand due to
 
 Advertising and Publicity: Effective advertising can increase demand by making more consumers aware of the good or service.''')
                                                 
-        self.keywords_entry.insert('1.0' ,'competitive market , Advertising and Publicity , consumers')
-        self.points_question.insert('1.0' , '15')
+        self.entries['keywords'].insert('1.0' ,'competitive market , Advertising and Publicity , consumers')
+        self.entries['points'].insert('1.0' , '15')
 
     # def change_appearance_mode_event(self, new_mode):
     #     ctk.set_appearance_mode(new_mode)

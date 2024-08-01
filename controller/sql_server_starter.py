@@ -7,7 +7,6 @@
 
 import mysql.connector
 from mysql.connector import errorcode
-import maskpass
 
 def database_initialization(pwd):
     database = 'ai_answers'
@@ -150,6 +149,7 @@ def clean_data_sql (pwd):
   cnx.commit()
   mycursor.close()
   cnx.close()      
+
 
 
 ####################################################################
