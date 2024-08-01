@@ -36,7 +36,7 @@ class KevinAgent:
                 Provide feedback for each answer, comparing it to the correct answer.
                 If a student got full points, acknowledge it as a good answer but still provide some insight.
                                    
-                Format your response as follows:
+                Format your response as follows and only in this respond:
                 Feedback for Question 1:
                 [Your detailed feedback here]
                 Points: [student's points]/[max points]

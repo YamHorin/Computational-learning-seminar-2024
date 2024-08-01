@@ -13,7 +13,7 @@ if __name__ == "__main__":
     pwd = opening_app.password_value
     role = opening_app.role_value
     
-    if role =='student':
+    if role =='Student':
         controller=  cs.ControllerStudent(pwd)
         controller.start_student_interface()
     else:

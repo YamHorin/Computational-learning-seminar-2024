@@ -30,6 +30,7 @@ class LoginScreen(ctk.CTk):
     def login(self):
         password = self.password_entry.get()
         role = self.role_var.get()
+        print (role)
         self.password_value = password
         self.role_value = role
         try:
