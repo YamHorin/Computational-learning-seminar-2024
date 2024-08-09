@@ -62,6 +62,7 @@ python3 main.py
 <div align="center">
  <img alt="autogen" height="200px" src="https://microsoft.github.io/autogen/img/ag.svg">
 </div>
+
 * Input - instructions to agents.
 * The first agent will receive the exam questions, the second will create a bank of correct answers, the third will check the correctness of the answers compared to the answers entered by the test author and check the correctness of the students' answers compared to the answer bank
 * Output - a bank of correct answers for the exam and the students' grades.
