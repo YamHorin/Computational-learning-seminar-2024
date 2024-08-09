@@ -21,9 +21,9 @@ Some system for checking (evaluating) grades of tests / exercises / closed/open 
  3. Autogen agent “Bob”- create a correct answers bank to each question using cosine similarity metric and keywords
  4. Students take the test
  5. The system grades students’ answers using cosine similarity metric. It calculates the average similarity of student answers and the answers bank. 
- 6. In addition, it checks the use of keywords. 
- 7. Autogen agent “Kevin” - provide feedback on each student answer explaining where the student was correct and where he was wrong. 
- 8. Autogen agents are easy to use, able to generate high-quality answers for user test questions. Gives us the ability to create multiple agents' conversations. 
+In addition, it checks the use of keywords. 
+Autogen agent “Kevin” - provide feedback on each student answer explaining where the student was correct and where he was wrong. 
+Autogen agents are easy to use, able to generate high-quality answers for user test questions. Gives us the ability to create multiple agents' conversations. 
 
 ## setup
 * after installing ollama and docker , do the following
