@@ -2,14 +2,29 @@
 ### readme not done 
 
 System name: Checkly
-
+## what the git repository include?
+* view foulder : include all the custom thinker files + objects python file
+* controller foulder: Because we programmed the system in the MVC model, we need a CONTROLLER part on the student's client side and the teacher's client side, and in addition code files to link with the MYSQL database
+* model foulder: Files included in this folder are for the logical side of the system, including the AUTO GEN files for agents, matrix calculation files and additional logic files
+* venu foulder : Mandatory files to use AUTOGEN tools
+* setup.py : for the setup the project on your system
+* requirements.txt: a list of all the python models that needed to be installed
+* main.py: for running the program 
 Some system for checking (evaluating) grades of tests / exercises / closed/open questions - automatically.
-### The 5 important requirements for the project, what people expect the system to do
-* Entering questions by the author of the test and collecting correct answers to the questions.
-* Preparation of a bank of answers similar to the answers entered by the author of the test / keywords for identification used in the answer.
-* Calculating the similarity between the answer of the examinee and the author of the test (use of AI features) and giving an estimated score for each question
-* Giving a score according to the similarity percentages obtained from the calculation.
-* Possibility of sharing an exam for students and receiving the results.
+
+## flow
+* We use MVC logic, creating a teacher and student interfaces. 
+* To use AutoGen, we need to integrate it with a free language model. We use the Natural language processing model- Ollama (llama 3). 
+* Basic flow:
+ 1. Teacher creates a test
+ 2. provide questions, answers. keywords and points.
+ 3. Autogen agent “Bob”- create a correct answers bank to each question using cosine similarity metric and keywords
+ 4. Students take the test
+ 5. The system grades students’ answers using cosine similarity metric. It calculates the average similarity of student answers and the answers bank. 
+ 6. In addition, it checks the use of keywords. 
+ 7. Autogen agent “Kevin” - provide feedback on each student answer explaining where the student was correct and where he was wrong. 
+ 8. Autogen agents are easy to use, able to generate high-quality answers for user test questions. Gives us the ability to create multiple agents' conversations. 
+
 ## setup
 * after installing ollama and docker , do the following
 * build the docker image of auto gen:
