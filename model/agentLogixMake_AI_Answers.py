@@ -43,7 +43,7 @@ def initialize_agents(answers_teacher, key_words):
 
             If we come back to you one more time in a conversation, it means the answers you gave were not good enough, and we ask you for better answers than you did.
 
-            Any message you find will be output according to the following format:
+            Any message you find will be output according to the following format!!:
 
             question 1:
             [put the question here]
@@ -73,7 +73,7 @@ def initialize_agents(answers_teacher, key_words):
     helper = ag.ConversableAgent(
         "helper",
         system_message='''
-        Your job is to tell Bob to the following message: "hey bob remake the answers better" for every time it's your turn to speak in the chat.
+        Your job is to tell Bob the following message: "hey bob remake the answers better and keep on 5 answers and make sure to answer all the questions" for every time it's your turn to speak in the chat.
         ''',
         llm_config={"config_list": config_list},
         human_input_mode="NEVER",  # Never ask for human input.
@@ -141,6 +141,9 @@ def extract_answers(text):
     answers = []
 
     for line in lines:
+        if line.strip().startswith("question") or line.strip().startswith("end"):
+            answers_start = False
+            continue
         if line.strip().startswith("the answers for"):
             answers_start = True
             continue

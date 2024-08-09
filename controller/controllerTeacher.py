@@ -10,13 +10,11 @@ class controllerTeacher():
        def runApp(self):
               self.app.mainloop()
               answers_ai = self.getAIAnswers(self.app.questions ,self.app.answers )
-              print('answers_ai: \n\n')
-              print(answers_ai)
               answers_ai = self.teacher_edit_win(answers_ai)
-              self.enter_agents_answers_in_db(answers_ai ,self.app.questions)
+              self.sql_server.add_answers(answers_ai)
               self.sql_server.close_connection()
        def teacher_edit_win(self ,answers_ai ):
-            self.app_edit = window.TestAnswersWindow(answers_ai)
+            self.app_edit = window.TestAnswersWindow(answers_ai , self.app.questions)
             self.app_edit.mainloop()
             return self.app_edit.answers
        def enter_agents_answers_in_db(self,answers_agent , question_teacher):
@@ -39,7 +37,7 @@ class controllerTeacher():
               initializer, manager, groupchat = initialize_agents(answers , key_words)
               questions_text = "Questions:\n" + "\n".join(f"{i}: {question.text}" for i, question in enumerate(questions))
               answers_text = "Answers:\n" + "\n".join(f"{i}: {answer.text}" for i, answer in enumerate(answers))
-              key_words_text = "Keywords:\n" + "".join(f"{question.keyWords}" for question in questions)
+              key_words_text = "Keywords for question:\n" + "\n".join(f"{question.id}.{question.keyWords}" for question in questions)
 
               # Combine all parts into one message
               msg = f"{questions_text}\n\n{answers_text}\n\n{key_words_text}"
@@ -49,22 +47,28 @@ class controllerTeacher():
               if messages[-1]['name'] == 'helper':
                      text = str(messages[-2]["content"])
               print (text)
-              list_answers = extract_answers(text)
+              list_answers = extract_answers(text , questions)
               return list_answers
        
 
 
 
-def extract_answers(text):
+def extract_answers(text , questions):
     # Split the text into lines
     lines = text.strip().split('\n')
 
     # Find the line containing the answers
     answers_start = False
     answers = []
-
+    counter=0
+    factory = obj.AnswerFactory_Agent()
     for line in lines:
-        if line.strip().startswith("the answers for"):
+        if line.strip().startswith("**End**"):
+            answers_start = False
+            counter+=1
+            continue
+
+        if line.strip().startswith("the answers for") or line.strip().startswith("**"):
             answers_start = True
             continue
         
@@ -72,7 +76,9 @@ def extract_answers(text):
             # Remove leading numbers and dots
             if line.strip() and not line.strip().lower().startswith("end"):
                 answer = line.split('. ', 1)[-1]
-                answers.append(answer)
+                answer_obj = factory.createAnswer(answer ,questions[counter-1].points ,counter)
+                answer_obj.show()
+                answers.append(answer_obj)
             elif line.strip().lower().startswith("end"):
                 answers_start = False
     

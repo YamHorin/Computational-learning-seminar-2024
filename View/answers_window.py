@@ -58,53 +58,55 @@ class AnswerWindow(ctk.CTkToplevel):
 
         if edit_dialog.result:
             self.answer = edit_dialog.result
-            self.parent.answers[self.index] = edit_dialog.result
+            self.parent.answers[self.index].text = edit_dialog.result
             self.text_widget.config(state=tk.NORMAL)
             self.text_widget.delete("1.0", tk.END)
             self.text_widget.insert(tk.END, edit_dialog.result)
             self.text_widget.config(state=tk.DISABLED)
             messagebox.showinfo("Success", f"Answer {self.index + 1} updated.")
-            self.parent.update_answer_label(self.index, edit_dialog.result)
+
+
 
 class TestAnswersWindow(ctk.CTk):
-    def __init__(self, answers, *args, **kwargs):
+    def __init__(self, answers,questions , *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.questions = questions
         self.answers = answers
         self.title("Test Answers")
-        self.geometry('800x800')
-
-        self.answer_widgets = []
+        self.geometry('1100x1100')
         self.create_widgets()
 
     def create_widgets(self):
+        # Create a scrollable frame
+        scrollable_frame = ctk.CTkScrollableFrame(self, width=800, height=700)
+        scrollable_frame.pack(pady=10, padx=10, fill="both", expand=True)
+        num_question = 1
+        j=1
         for i, answer in enumerate(self.answers):
-            frame = ctk.CTkFrame(self)
+            frame = ctk.CTkFrame(scrollable_frame)
             frame.pack(pady=10, padx=10, fill="x")
-
-            answer_button = ctk.CTkButton(frame, text=f"Answer {i + 1}", font=LARGE_FONT, command=lambda i=i, a=answer: self.show_answer(i, a))
+            if (answer.questionId != num_question):
+                num_question = answer.questionId
+                j=1
+            answer_button = ctk.CTkButton(frame, text=f"Answer {j}", font=LARGE_FONT, command=lambda i=i, a=answer.text: self.show_answer(i))
             answer_button.pack(pady=10, padx=10)
 
-            answer_label = ctk.CTkLabel(frame, text=answer, font=LARGE_FONT)
+            answer_label = ctk.CTkLabel(frame, text=f"question {answer.questionId} : {self.questions[num_question-1].text}", font=LARGE_FONT)
             answer_label.pack(pady=10, padx=10)
-
-            self.answer_widgets.append((answer_label, answer_button))
+            j+=1
 
         # Add the Done button at the bottom
         done_button = ctk.CTkButton(self, text="Done", font=LARGE_FONT, command=self.done)
         done_button.pack(pady=20)
 
-    def show_answer(self, index, answer):
-        answer_window = AnswerWindow(self, index, answer)
+        
+    def show_answer(self, index):
+        answer_window = AnswerWindow(self, index, self.answers[index].text)
         answer_window.grab_set()
-
-    def update_answer_label(self, index, new_text):
-        self.answer_widgets[index][0].configure(text=new_text)
 
     def done(self):
         self.destroy()
-        # Optional: Show a message box when done
-        # messagebox.showinfo("Done", "All answers are updated and saved!")
-
+        
 if __name__ == "__main__":
     answers = [
         "In a highly competitive environment, the Price of the Good or Service is the most significant determinant of demand, as even minute changes in price can have a profound impact on quantity demanded and ultimately affect a firm's revenue and profitability.",
