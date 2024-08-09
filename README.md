@@ -171,7 +171,9 @@ ollama pull llama 3
  <img alt="my sql" height="200px" src="https://pbs.twimg.com/profile_images/1255113654049128448/J5Yt92WW_400x400.png">
 </div>
 
-* the program use database of my sql
+* the program use database of mysql
+* make sure you save the mysql password because you need it to enter the app
+
 ### how to install mysql:
 ### macOS
 
