@@ -70,7 +70,8 @@ def create_student_answers_table(pwd):
             createdBy VARCHAR(2000),
             question_id INT NOT NULL,
             grade FLOAT,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            feedback VARCHAR(3000)
         );
         ''')
         

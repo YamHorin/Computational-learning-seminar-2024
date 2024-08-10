@@ -12,6 +12,7 @@ from model.student_model import StudentModel
 from model.agentLogicGradeStudent import KevinAgent
 import controller.sql_server as sql
 import tkinter as tk
+import View.summary_student_answers as summary_student_answers
 from tkinter import messagebox  
 class ControllerStudent ():
     def __init__(self ,pwd):
@@ -21,6 +22,7 @@ class ControllerStudent ():
     def start_student_interface(self):
         correct_answers = self.sql_server.get_all_answers()
         questions , keywords = self.sql_server.get_all_questions()
+        self.questions = questions
         if (len(correct_answers)==0 or len(questions) ==0):
             messagebox.showerror("Error", " mySQL database has no values!!")
             raise ValueError("database has no values")
@@ -29,7 +31,7 @@ class ControllerStudent ():
         self.gui = StudentGUI(questions, model, self.on_done_callback, correct_answers, points)
         self.gui.mainloop()
         self.on_done_callback(self.gui.grades,correct_answers , points , self.gui.student_answers , self.gui.final_grade)
-        #TODO extract feedback and points
+
 
     def on_done_callback(self, grades, correct_answers, points, student_answers, final_grade):
         # Initialize the agent with correct answers and points
@@ -49,10 +51,30 @@ class ControllerStudent ():
         # Start the conversation by sending a message to the group chat
         initial_message = "Provide feedback based on the following grades and answers: " + str(grades) + str(student_answers)
         chat_result = initializer.initiate_chat(manager, message=initial_message)
-
+        messages = groupchat.messages
+        text = str(messages[-1]["content"])
+        print(text)
+        feedbacks, points = self.extract_feedbacks_and_points(text)
+        print(f"{feedbacks} {points}")
         print(f"Final test grade: {final_grade}")
-        
-    def extract_feedbacks_and_points(text):
+        app_finale = summary_student_answers.SummeryStudentAnswers(student_answers , self.questions , feedbacks ,points)
+        app_finale.mainloop()
+        self.save_students_answers_in_db(student_answers , self.questions , feedbacks ,points)
+    def save_students_answers_in_db(self ,student_answers ,questions , feedbacks ,points):
+        data = []
+        # CREATE TABLE IF NOT EXISTS student_answers (
+        #     answer_id INT AUTO_INCREMENT PRIMARY KEY,
+        #     answer_text VARCHAR(2000) NOT NULL,
+        #     createdBy VARCHAR(2000),
+        #     question_id INT NOT NULL,
+        #     grade FLOAT,
+        #     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        #     feedback VARCHAR(3000)
+        # );
+        for answer , question , feedback , points_for_answer in zip (student_answers ,questions , feedbacks ,points):
+            data.append((answer , question , feedback , points_for_answer))
+        self.sql_server.add_answers_students(data)
+    def extract_feedbacks_and_points(self ,text):
         lines = text.splitlines()
         feedbacks = []
         points = []
@@ -61,7 +83,7 @@ class ControllerStudent ():
         current_points = None
 
         for i, line in enumerate(lines):
-            if "Feedback for this answer:" in line:
+            if line.startswith("Feedback for Question"):
                 if current_feedback:
                     # Append the previous feedback and points
                     feedbacks.append("\n".join(current_feedback))
@@ -71,18 +93,20 @@ class ControllerStudent ():
                     current_points = None
 
                 feedback_start = i
-                current_feedback.append(f"Feedback for answer {len(feedbacks) + 1}:")
+                question_number = line.split(":")[0].split()[-1]  # Extract question number
+                current_feedback.append(f"Feedback for question {question_number}:")
             elif feedback_start is not None:
-                current_feedback.append(line)
-                if "Points:" in line:
+                if line.startswith("Points:"):
                     # Extract points information
                     try:
                         parts = line.split(":")[1].strip().split("/")
-                        awarded_points = int(parts[0])
-                        total_points = int(parts[1]) if len(parts) > 1 else awarded_points
+                        awarded_points = round(float(parts[0]))
+                        total_points = float(parts[1]) if len(parts) > 1 else awarded_points
                         current_points = (awarded_points, total_points)
                     except (ValueError, IndexError):
                         current_points = None
+                else:
+                    current_feedback.append(line)
 
         # Append the last feedback and points if any
         if current_feedback:

@@ -13,6 +13,7 @@ if __name__ == "__main__":
     role = opening_app.role_value
     
     if role =='Student':
+        sql_starter.create_student_answers_table(pwd)
         controller=  cs.ControllerStudent(pwd)
         controller.start_student_interface()
     else:
