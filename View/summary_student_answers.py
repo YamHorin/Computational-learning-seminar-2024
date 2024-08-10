@@ -1,83 +1,61 @@
 import customtkinter as ctk
 import controller.sql_server
 
-# Initialize the customtkinter window
-ctk.set_appearance_mode("dark")
-ctk.set_default_color_theme("blue")
 
-# Define the root window before using it
-root = ctk.CTk()
-root.title("Test Answers Review")
-root.geometry("600x600")
+class SummeryStudentAnswers(ctk.CTk):
+    def __init__(self, answers, questions, feedbacks, points, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.questions = questions
+        self.answers = answers
+        self.feedbacks = feedbacks
+        self.points = points
+        self.title("Student Answers")
+        self.geometry('600x600')
+        self.create_widgets()
+    # # Initialize the customtkinter window
+    # ctk.set_appearance_mode("dark")
+    # ctk.set_default_color_theme("blue")
 
-# Create a scrollable frame inside the root window
-scrollable_frame = ctk.CTkScrollableFrame(root, width=550, height=550)
-scrollable_frame.pack(pady=20, padx=10, fill="both", expand=True)
+    # # Define the root window before using it
+    # root = ctk.CTk()
+    # root.title("Test Answers Review")
+    # root.geometry("600x600")
 
+    def create_widgets(self):
+        # Create a scrollable frame inside the root window
+        scrollable_frame = ctk.CTkScrollableFrame(self, width=550, height=550)
+        scrollable_frame.pack(pady=10, padx=10, fill="both", expand=True)
+        #scrollable_frame = ctk.CTkScrollableFrame(self, width=550, height=550)
+        #scrollable_frame.pack(pady=20, padx=10, fill="both", expand=True)
 
-# Sample data for questions, answers, reviews, and points
-''' Connect to DB '''
-questions = [
-    "What is the impact of price on demand?",
-    "How does income affect demand?",
-    "What is the role of substitute goods in demand?",
-    "How do substitute prices influence demand?",
-    "What factors can transform demand?",
-    "How do future price expectations affect demand?"
-]
+    # Loop to create the question, answer, review, and points display
+        for i in range(len(self.questions)):
+            # Display the question number
+            question_label = ctk.CTkLabel(scrollable_frame, text=f"Question {i+1}", font=("Arial", 16, "bold"))
+            question_label.grid(row=i*5, column=0, padx=10, pady=(10, 0), sticky="w")
 
-answers = [
-    "Determinant of demand, as even minute changes in price can have a profound impact...",
-    "Increase in income often leading to a substantial upward shift in the demand curve...",
-    "Changes in substitute prices can either stimulate or reduce demand for a product...",
-    "Changes in substitute prices can either stimulate or reduce demand for a product...",
-    "Exert a transformative influence on demand, leading to significant shifts...",
-    "Anticipated future price movements, which can either stimulate or dampen demand..."
-]
+            # Display the question text
+            question_text_label = ctk.CTkLabel(scrollable_frame, text=self.questions[i], font=("Arial", 14), wraplength=500)
+            question_text_label.grid(row=i*5+1, column=0, padx=10, pady=(0, 5), sticky="w")
 
-reviews = [
-    "This answer covers the essential points but could use more detail.",
-    "This answer needs more detail in discussing the impact on demand.",
-    "Good analysis, but lacks depth in explaining substitute goods.",
-    "Well written but missed a key point about price elasticity.",
-    "Excellent! Covered all the necessary points with great clarity.",
-    "Lacks clarity, but the overall idea is correct."
-]
+            # Display the answer with the label "Answer:"
+            answer_label = ctk.CTkLabel(scrollable_frame, text=f"Answer: {self.answers[i]}", font=("Arial", 14), wraplength=500)
+            answer_label.grid(row=i*5+2, column=0, padx=10, pady=(0, 5), sticky="w")
 
-points = [
-    "Points: 5/10",
-    "Points: 7/10",
-    "Points: 6/10",
-    "Points: 8/10",
-    "Points: 10/10",
-    "Points: 4/10"
-]
+            # Display the review
+            review_label = ctk.CTkLabel(scrollable_frame, text=f"Feedback: {self.feedbacks[i]}", font=("Arial", 12), wraplength=500)
+            review_label.grid(row=i*5+3, column=0, padx=10, pady=(0, 5), sticky="w")
 
-# Loop to create the question, answer, review, and points display
-for i in range(len(questions)):
-    # Display the question number
-    question_label = ctk.CTkLabel(scrollable_frame, text=f"Question {i+1}", font=("Arial", 16, "bold"))
-    question_label.grid(row=i*5, column=0, padx=10, pady=(10, 0), sticky="w")
+            # Display the points
+            points_label = ctk.CTkLabel(scrollable_frame, text=self.points[i], font=("Arial", 12))
+            points_label.grid(row=i*5+4, column=0, padx=10, pady=(0, 10), sticky="w")
 
-    # Display the question text
-    question_text_label = ctk.CTkLabel(scrollable_frame, text=questions[i], font=("Arial", 14), wraplength=500)
-    question_text_label.grid(row=i*5+1, column=0, padx=10, pady=(0, 5), sticky="w")
+        # Done button
+        done_button = ctk.CTkButton(self, text="Done", font=("Arial", 14), command=self.destroy)
+        done_button.pack(pady=10)
 
-    # Display the answer with the label "Answer:"
-    answer_label = ctk.CTkLabel(scrollable_frame, text=f"Answer: {answers[i]}", font=("Arial", 14), wraplength=500)
-    answer_label.grid(row=i*5+2, column=0, padx=10, pady=(0, 5), sticky="w")
+    def done(self):
+        self.destroy()
 
-    # Display the review
-    review_label = ctk.CTkLabel(scrollable_frame, text=f"Feedback: {reviews[i]}", font=("Arial", 12), wraplength=500)
-    review_label.grid(row=i*5+3, column=0, padx=10, pady=(0, 5), sticky="w")
-
-    # Display the points
-    points_label = ctk.CTkLabel(scrollable_frame, text=points[i], font=("Arial", 12))
-    points_label.grid(row=i*5+4, column=0, padx=10, pady=(0, 10), sticky="w")
-
-# Done button
-done_button = ctk.CTkButton(root, text="Done", font=("Arial", 14), command=root.destroy)
-done_button.pack(pady=10)
-
-# Run the application
-root.mainloop()
+    # Run the application
+    #self.mainloop()
