@@ -59,21 +59,7 @@ class ControllerStudent ():
         print(f"Final test grade: {final_grade}")
         app_finale = summary_student_answers.SummeryStudentAnswers(student_answers , self.questions , feedbacks ,points)
         app_finale.mainloop()
-        self.save_students_answers_in_db(student_answers , self.questions , feedbacks ,points)
-    def save_students_answers_in_db(self ,student_answers ,questions , feedbacks ,points):
-        data = []
-        # CREATE TABLE IF NOT EXISTS student_answers (
-        #     answer_id INT AUTO_INCREMENT PRIMARY KEY,
-        #     answer_text VARCHAR(2000) NOT NULL,
-        #     createdBy VARCHAR(2000),
-        #     question_id INT NOT NULL,
-        #     grade FLOAT,
-        #     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        #     feedback VARCHAR(3000)
-        # );
-        for answer , question , feedback , points_for_answer in zip (student_answers ,questions , feedbacks ,points):
-            data.append((answer , question , feedback , points_for_answer))
-        self.sql_server.add_answers_students(data)
+        self.sql_server.save_student_answers(student_answers , points , feedbacks)
     def extract_feedbacks_and_points(self ,text):
         lines = text.splitlines()
         feedbacks = []

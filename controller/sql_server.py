@@ -104,10 +104,10 @@ class sql_server:
 
         return ANSWERs
 
-    def add_student_answer(self, answer_text, student_id, question_id, grade):
-        add_answer = '''INSERT INTO student_answers (answer_text, createdBy, question_id, grade) VALUES (%s, %s, %s, %s)'''
-        grade = float(grade) if grade is not None else None
-        data_answer = (answer_text, student_id, question_id, grade)
+    def add_student_answer(self, answer_text, student_id, question_id, grade , feedback):
+        add_answer = '''INSERT INTO student_answers (answer_text, createdBy, question_id, grade ,feedback) VALUES (%s, %s, %s, %s,%s)'''
+        grade = int(grade) if grade is not None else None
+        data_answer = (answer_text, student_id, question_id, grade ,feedback)
 
         try:
             self.cursor.execute(add_answer, data_answer)
@@ -115,22 +115,11 @@ class sql_server:
             print(f"Student answer for question {question_id} inserted successfully")
         except MySQLError as e:
             print(f"Error inserting student answer: {e}")
-    def add_answers_students(self, list_data):
-        add_answer_text = "INSERT INTO ai_answers.student_answers (answer_text, createdBy, question_id, grade, feedback) VALUES (%s, %s, %s, %s, %s)"
-        for i, data in enumerate(list_data):
-            answer_text = data[0]
-            student_id = "student"
-            question_id = i + 1
-            grade = data[3]
-            feedback = data[2]
-            data_answer = (answer_text, student_id, question_id, grade, feedback)
-
-            try:
-                self.cursor.execute(add_answer_text, data_answer)
-                self.cnx.commit()
-                print(f"Student answer for data {data} inserted successfully")
-            except MySQLError as e:
-                print(f"Error inserting student answer: {e}")
+    def save_student_answers(self, student_answers, grades , feedbacks):
+        for i, (answer, grade,feedback) in enumerate(zip(student_answers, grades, feedbacks)):
+            question_id = i + 1  # Assuming question IDs start from 1
+            grade = round(int(grade[0])) if grade is not None else None
+            self.add_student_answer(answer, "student", question_id, grade , feedback)
 
     def close_connection(self):
         self.cursor.close() 
