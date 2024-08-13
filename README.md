@@ -89,12 +89,6 @@ The easiest way to start playing is
 
 *NOTE*: OAI_CONFIG_LIST_sample lists GPT-4 as the default model, as this represents our current recommendation, and is known to work well with AutoGen. If you use a model other than GPT-4, you may need to revise various system prompts (especially if using weaker models like GPT-3.5-turbo). Moreover, if you use models other than those hosted by OpenAI or Azure, you may incur additional risks related to alignment and safety. Proceed with caution if updating this default.
 
-<p align="right" style="font-size: 14px; color: #555; margin-top: 20px;">
-  <a href="#readme-top" style="text-decoration: none; color: blue; font-weight: bold;">
-    ↑ Back to Top ↑
-  </a>
-</p>
-
 ### [Installation](https://microsoft.github.io/autogen/docs/Installation)
 #### Option 1. Install and Run AutoGen in Docker
 
@@ -122,11 +116,6 @@ Find more options in [Installation](https://microsoft.github.io/autogen/docs/Ins
 Even if you are installing and running AutoGen locally outside of docker, the recommendation and default behavior of agents is to perform [code execution](https://microsoft.github.io/autogen/docs/FAQ/#code-execution) in docker. Find more instructions and how to change the default behaviour [here](https://microsoft.github.io/autogen/docs/Installation#code-execution-with-docker-(default)).
 
 For LLM inference configurations, check the [FAQs](https://microsoft.github.io/autogen/docs/FAQ#set-your-api-endpoints).
-
-<p align="right" style="font-size: 14px; color: #555; margin-top: 20px;">
-  <a href="#readme-top" style="text-decoration: none; color: blue; font-weight: bold;">
-    ↑ Back to Top ↑
-  </a>
 
 ## Ollama
 
