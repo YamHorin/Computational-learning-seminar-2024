@@ -1,7 +1,8 @@
 # Computational learning seminar project 2024 
-### readme not done 
 
-System name: Checkly
+* System name: Checkly
+* We offer Checkly, an Automatic Grading System, a system that uses Artificial Intelligence (AI) to create a revolution in assessment.  Teachers can easily create exams within the system. For open-ended questions, the system analyzes teacher-provided keywords and correct answers to generate a set of expected response variations. The students take the exam online using the system's interface. Once submitted, the system grades each question based on a comparison between the student's answer and the AI-generated set of correct answers.
+
 ## what the git repository include?
 * view foulder : include all the custom thinker files + objects python file
 * controller foulder: Because we programmed the system in the MVC model, we need a CONTROLLER part on the student's client side and the teacher's client side, and in addition code files to link with the MYSQL database
@@ -16,17 +17,19 @@ Some system for checking (evaluating) grades of tests / exercises / closed/open 
 * We use MVC logic, creating a teacher and student interfaces. 
 * To use AutoGen, we need to integrate it with a free language model. We use the Natural language processing model- Ollama (llama 3). 
 * Basic flow:
- 1. Teacher creates a test
- 2. provide questions, answers. keywords and points.
- 3. Autogen agent “Bob”- create a correct answers bank to each question using cosine similarity metric and keywords
- 4. Students take the test
- 5. The system grades students’ answers using cosine similarity metric. It calculates the average similarity of student answers and the answers bank. 
+
+    1. Teacher creates a test
+    2. provide questions, answers. keywords and points.
+    3. Autogen agent “Bob”- create a correct answers bank to each question using cosine similarity metric and keywords
+    4. Students take the test
+    5. The system grades students’ answers using cosine similarity metric. It calculates the average similarity of student answers and the answers bank. 
 In addition, it checks the use of keywords. 
 Autogen agent “Kevin” - provide feedback on each student answer explaining where the student was correct and where he was wrong. 
 Autogen agents are easy to use, able to generate high-quality answers for user test questions. Gives us the ability to create multiple agents' conversations. 
 
 ## setup
-* after installing ollama and docker , do the following
+* **you need your mysql password** in order to use the program 
+* after installing ollama ,docker and mysql do the following
 * build the docker image of auto gen:
  ```bash
 docker build -f .devcontainer/Dockerfile -t autogen_base_img https://github.com/microsoft/autogen.git#main
@@ -40,7 +43,6 @@ and finally run main.py
  ```bash
 python3 main.py
 ```
-
 ## tools that we use in the project AND NEEDED TO BE INSTALLED IN ORDER TO RUN  
 
 ## DOCKER
