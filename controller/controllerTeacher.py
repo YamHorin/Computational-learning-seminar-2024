@@ -2,7 +2,7 @@ import View.answers_window as window
 from model.agentLogixMake_AI_Answers import initialize_agents
 import View.objectsPrograms as obj
 import controller.sql_server as sql
-
+import re
 class controllerTeacher():
        def __init__(self,gui_app ,pwd):
               self.app =gui_app
@@ -58,28 +58,26 @@ def extract_answers(text , questions):
     lines = text.strip().split('\n')
 
     # Find the line containing the answers
-    answers_start = False
     answers = []
     counter=0
     factory = obj.AnswerFactory_Agent()
     for line in lines:
-        if line.strip().startswith("**End**"):
-            answers_start = False
-            counter+=1
-            continue
+        stripped_line = line.strip()
 
-        if line.strip().startswith("the answers for") or line.strip().startswith("**"):
-            answers_start = True
-            continue
-        
-        if answers_start:
-            # Remove leading numbers and dots
-            if line.strip() and not line.strip().lower().startswith("end"):
-                answer = line.split('. ', 1)[-1]
-                answer_obj = factory.createAnswer(answer ,questions[counter-1].points ,counter)
-                answer_obj.show()
-                answers.append(answer_obj)
-            elif line.strip().lower().startswith("end"):
-                answers_start = False
+        if stripped_line and stripped_line[0].isdigit() and stripped_line[1] == '.':
+            if stripped_line.startswith("1."):
+                counter += 1
+            answer = stripped_line.split('. ', 1)[-1].strip()
+            answer_obj = factory.createAnswer(answer ,questions[counter-1].points ,counter)
+            answer_obj.show()
+            answers.append(answer_obj)
+            
+        if stripped_line and stripped_line[0].isdigit() and stripped_line[1] == ':':
+            if stripped_line.startswith("1:"):
+                counter += 1
+            answer = stripped_line.split('. ', 1)[-1].strip()
+            answer_obj = factory.createAnswer(answer ,questions[counter-1].points ,counter)
+            answer_obj.show()
+            answers.append(answer_obj)
     
     return answers

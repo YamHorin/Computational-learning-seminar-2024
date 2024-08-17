@@ -69,7 +69,7 @@ class GUIApp(ctk.CTk):
         for i, label in enumerate(labels):
             lbl = ctk.CTkLabel(self, text=label, anchor="w", font=ctk.CTkFont(size=14, weight="bold"))
             lbl.grid(row=i*2, column=1, padx=(20, 10), pady=(10, 0), sticky="w")
-            entry = ctk.CTkTextbox(self, height=80 if i < 2 else 40)
+            entry = ctk.CTkTextbox(self, height=80 if i < 2 else 40 , state="normal")
             entry.grid(row=i*2+1, column=1, padx=(20, 10), pady=(5, 10), sticky="ew")
             self.entries[label.lower().rstrip(':')] = entry
 
