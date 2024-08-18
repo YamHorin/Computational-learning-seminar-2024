@@ -33,6 +33,7 @@ class StudentModel:
             # Avoid division by zero if no matches were found
             if count > 0:
                 grade = total_sum / count
+                grade = round(grade)
             else:
                 grade = 0  # or some default grade
             print(f"grade = {grade}")
