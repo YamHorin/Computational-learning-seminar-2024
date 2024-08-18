@@ -22,7 +22,7 @@ class StudentModel:
                         self.keywords[i]
                     )
                     ######### similarity = similarity *100
-                    # print(f'***similarity = {similarity}')
+                    print(f'***similarity = {similarity} point i = {self.points[i]}')
                     # Calculate grade based on similarity
                     if similarity < 0.8:
                         total_sum += similarity * self.points[i]
@@ -35,7 +35,7 @@ class StudentModel:
                 grade = total_sum / count
             else:
                 grade = 0  # or some default grade
-            
+            print(f"grade = {grade}")
             grades.append(grade)
         return grades
     

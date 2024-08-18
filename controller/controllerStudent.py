@@ -1,4 +1,4 @@
-import subprocess
+
 
 # import student agent
 # import sql --> student need other tables then the teacher: need to get the test from teacher DB and save its answers to another
@@ -6,7 +6,7 @@ import subprocess
 #  retrieve student answer and save to DB 
 # when student press DONE button --> activate function to grade each answer with cosin similarity 
 #                                    then activate agent 
-
+import re
 from View.student_screen import StudentGUI
 from model.student_model import StudentModel
 from model.agentLogicGradeStudent import KevinAgent
@@ -49,15 +49,18 @@ class ControllerStudent ():
         initializer, manager, groupchat = agent.initialize_agents()
 
         # Start the conversation by sending a message to the group chat
-        initial_message = "Provide feedback based on the following grades and answers: " + str(grades) + str(student_answers)
+        message = "".join (f"\n {i+1} \n question:{question.text}  \n answer{answer} \n grade:{grade} \{question.points} \n\n" for i,(question ,answer ,grade) in enumerate(zip(self.questions , student_answers , grades)))
+        initial_message = "Provide feedback based on the following questions ,answers and grades :\n"+message
+        print(initial_message)
         chat_result = initializer.initiate_chat(manager, message=initial_message)
         messages = groupchat.messages
         text = str(messages[-1]["content"])
         print(text)
-        feedbacks, points = self.extract_feedbacks_and_points(text)
+        feedbacks = self.extract_feedbacks_and_points(text)
+        points = [(grade , question.points) for (grade , question) in zip (grades , self.questions) ]
         print(f"{feedbacks} {points}")
         print(f"Final test grade: {final_grade}")
-        app_finale = summary_student_answers.SummeryStudentAnswers(student_answers , self.questions , feedbacks ,points)
+        app_finale = summary_student_answers.SummeryStudentAnswers(student_answers , self.questions , feedbacks ,points , final_grade)
         app_finale.mainloop()
         self.sql_server.save_student_answers(student_answers , points , feedbacks)
     def extract_feedbacks_and_points(self ,text):
@@ -84,13 +87,13 @@ class ControllerStudent ():
             elif feedback_start is not None:
                 if line.startswith("Points:"):
                     # Extract points information
-                    try:
-                        parts = line.split(":")[1].strip().split("/")
-                        awarded_points = round(float(parts[0]))
-                        total_points = float(parts[1]) if len(parts) > 1 else awarded_points
-                        current_points = (awarded_points, total_points)
-                    except (ValueError, IndexError):
-                        current_points = None
+                        match = re.search(r'Points:\s*(\d+)/(\d+)', text)
+                        if match:
+                            current_points = (int(match.group(1)), int(match.group(2)))
+                            print(points)
+                        else:
+                            print("could not find points!!!!")
+                            current_points = None
                 else:
                     current_feedback.append(line)
 
@@ -100,4 +103,4 @@ class ControllerStudent ():
             if current_points is not None:
                 points.append(current_points)
 
-        return feedbacks, points
+        return feedbacks

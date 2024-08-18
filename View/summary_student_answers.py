@@ -3,8 +3,9 @@ import controller.sql_server
 
 
 class SummeryStudentAnswers(ctk.CTk):
-    def __init__(self, answers, questions, feedbacks, points, *args, **kwargs):
+    def __init__ (self, answers, questions, feedbacks, points,finale_grade, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.finale_grade = finale_grade
         self.questions = questions
         self.answers = answers
         self.feedbacks = feedbacks
@@ -56,7 +57,8 @@ class SummeryStudentAnswers(ctk.CTk):
         # Done button
         done_button = ctk.CTkButton(self, text="Done", font=("Arial", 14), command=self.destroy)
         done_button.pack(pady=10)
-
+        finale_label = ctk.CTkLabel(scrollable_frame, text=f"finale grade = {self.finale_grade}", font=("Arial", 26), wraplength=500)
+        finale_label.grid(row=len(self.questions)*6+4, column=0, padx=10, pady=(0, 5), sticky="w")
     def done(self):
         self.destroy()
 
