@@ -45,7 +45,10 @@ python3 main.py
 ```
 
 ## video of the project:
-![Video Title](https://img.youtube.com/vi/i0ocJYDvhzs/0.jpg)](https://www.youtube.com/watch?v=i0ocJYDvhzs)
+
+
+https://github.com/user-attachments/assets/95e0d980-d459-4011-90dd-ca6228e6e35e
+
 
 
 ## tools that we use in the project AND NEEDED TO BE INSTALLED IN ORDER TO RUN  
