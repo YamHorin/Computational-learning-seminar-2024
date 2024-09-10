@@ -43,6 +43,12 @@ and finally run main.py
  ```bash
 python3 main.py
 ```
+
+## video of the project:
+
+<iframe width="420" height="345" src="https://www.youtube.com/watch?v=i0ocJYDvhzs">
+</iframe>
+
 ## tools that we use in the project AND NEEDED TO BE INSTALLED IN ORDER TO RUN  
 
 ## DOCKER
