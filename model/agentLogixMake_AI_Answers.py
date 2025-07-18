@@ -1,7 +1,7 @@
 
 # before you start coding you need to install autoGen 
 # run this command in the terminal:
-#   pip install pyautogen
+#   pip install ag2
 #   ollama pull llama3
 #   install docker 
 #   docker build -f .devcontainer/Dockerfile -t autogen_base_img https://github.com/microsoft/autogen.git#main

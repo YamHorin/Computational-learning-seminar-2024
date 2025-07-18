@@ -1,7 +1,7 @@
 maskpass
 mysql-connector-python
 scikit-learn
-pyautogen
+ag2
 customtkinter
 cx_Oracle
 pymysql
