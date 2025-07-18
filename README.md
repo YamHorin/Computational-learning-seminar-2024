@@ -107,14 +107,14 @@ Find detailed instructions for users [here](https://microsoft.github.io/autogen/
 AutoGen requires **Python version >= 3.8, < 3.13**. It can be installed from pip:
 
 ```bash
-pip install pyautogen
+pip install ag2
 ```
 
 Minimal dependencies are installed without extra options. You can install extra options based on the feature you need.
 
 <!-- For example, use the following to install the dependencies needed by the [`blendsearch`](https://microsoft.github.io/FLAML/docs/Use-Cases/Tune-User-Defined-Function#blendsearch-economical-hyperparameter-optimization-with-blended-search-strategy) option.
 ```bash
-pip install "pyautogen[blendsearch]"
+pip install "ag2[blendsearch]"
 ``` -->
 
 Find more options in [Installation](https://microsoft.github.io/autogen/docs/Installation#option-2-install-autogen-locally-using-virtual-environment).
